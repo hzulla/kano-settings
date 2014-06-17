@@ -7,7 +7,8 @@
 #
 # Controls the UI of the change password screen
 
-from gi.repository import Gtk
+from gi.repository import Gtk, Gdk, GObject
+import threading
 from kano.gtk3.heading import Heading
 import kano_settings.components.fixed_size_box as fixed_size_box
 import kano.utils as utils
@@ -18,13 +19,15 @@ win = None
 entry1 = None
 entry2 = None
 entry3 = None
+button = None
 
 
 def activate(_win, changeable_content, _button):
-    global win, entry1, entry2, entry3
+    global win, entry1, entry2, entry3, button
 
     win = _win
     settings = fixed_size_box.Fixed()
+    button = _button
 
     entry1 = Gtk.Entry()
     entry1.set_size_request(300, 44)
@@ -63,38 +66,62 @@ def activate(_win, changeable_content, _button):
     win.show_all()
 
 
-def apply_changes(button=None):
+def apply_changes(button):
     global win
 
-    old_password = entry1.get_text()
-    new_password1 = entry2.get_text()
-    new_password2 = entry3.get_text()
+    # This is a callback called by the main loop, so it's safe to
+    # manipulate GTK objects:
+    watch_cursor = Gdk.Cursor(Gdk.CursorType.WATCH)
+    win.get_window().set_cursor(watch_cursor)
+    button.set_sensitive(False)
 
-    # Verify the current password in the first text box
-    # Get current username
-    username, e, num = utils.run_cmd("echo $SUDO_USER")
-    # Remove trailing newline character
-    username = username.rstrip()
+    def lengthy_process():
+        global button
 
-    if not pam.authenticate(username, old_password):
-        return create_dialog(message1="Could not change password", message2="Your old password is incorrect!")
+        old_password = entry1.get_text()
+        new_password1 = entry2.get_text()
+        new_password2 = entry3.get_text()
 
-    # If the two new passwords match
-    if new_password1 == new_password2:
-        out, e, cmdvalue = utils.run_cmd("echo $SUDO_USER:%s | sudo chpasswd" % (new_password1))
-        # if password is not changed
-        if cmdvalue != 0:
-            return create_dialog("Could not change password", "Your new password is not long enough or contains special characters.  Try again.")
-    else:
-        return create_dialog("Could not change password", "Your new passwords don't match!  Try again")
+        # Verify the current password in the first text box
+        # Get current username
+        username, e, num = utils.run_cmd("echo $SUDO_USER")
+        # Remove trailing newline character
+        username = username.rstrip()
+
+        if not pam.authenticate(username, old_password):
+            title = "Could not change password"
+            description = "Your old password is incorrect!"
+        # If the two new passwords match
+        elif new_password1 == new_password2:
+            out, e, cmdvalue = utils.run_cmd("echo $SUDO_USER:%s | sudo chpasswd" % (new_password1))
+            # if password is not changed
+            if cmdvalue != 0:
+                title = "Could not change password"
+                description = "Your new password is not long enough or contains special characters."
+            else:
+                title = "Password changed!"
+                description = ""
+        else:
+            title = "Could not change password"
+            description = "Your new passwords don't match!  Try again"
+
+        def done(title, description):
+            create_dialog(title, description)
+        GObject.idle_add(done, title, description)
+
+    thread = threading.Thread(target=lengthy_process)
+    thread.start()
+    return -1
 
 
 def create_dialog(message1="Could not change password", message2=""):
-    global win
+    global win, button
 
     kdialog = kano_dialog.KanoDialog(message1, message2,
-                                     {"TRY AGAIN": {"return_value": -1}, "GO BACK": {"return_value": 0}})
+                                     {"TRY AGAIN": {"return_value": -1}})
     response = kdialog.run()
+    win.get_window().set_cursor(None)
+    button.set_sensitive(True)
     return response
 
 
