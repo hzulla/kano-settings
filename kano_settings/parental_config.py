@@ -58,7 +58,7 @@ class ParentalConfig(Template):
 
         self.box.set_spacing(20)
         self.box.pack_start(parental_level_grid, False, False, 0)
-        self.box.pack_start(blacklist_button, False, False, 0)
+        # self.box.pack_start(blacklist_button, False, False, 0)
 
         self.win = win
 
