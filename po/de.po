@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-01-28 10:13+0100\n"
+"POT-Creation-Date: 2015-01-28 10:44+0100\n"
 "PO-Revision-Date: 2015-01-27 12:00+0100\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: de <LL@li.org>\n"
@@ -33,7 +33,7 @@ msgstr "Die Änderung ist erst nach einem Neustart abgeschlossen"
 msgid "Reboot now"
 msgstr "Jetzt neu starten"
 
-#: bin/kano-settings:99
+#: bin/kano-settings:99 kano_settings/no_internet_screen.py:27
 msgid "Later"
 msgstr "Später"
 
@@ -349,6 +349,14 @@ msgstr "Es hat geklappt"
 #: kano_settings/set_advanced.py:325
 msgid "Error"
 msgstr "Fehler"
+
+#: kano_settings/no_internet_screen.py:30
+msgid "Connect now"
+msgstr "Jetzt verbinden"
+
+#: kano_settings/no_internet_screen.py:51
+msgid "You need internet to continue"
+msgstr "Du musst Dich noch mit dem Internet verbinden"
 
 #: kano_settings/set_account.py:42
 msgid "System account settings"
