@@ -19,7 +19,7 @@ def get_current_version():
 
 
 def get_space_available():
-    output = subprocess.check_output("LANG=C df -h | grep rootfs", shell=True)
+    output = subprocess.check_output("LC_ALL=C df -h | grep rootfs", shell=True)
     items = output.strip().split(" ")
     items = filter(None, items)
     total_space = items[1]
