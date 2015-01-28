@@ -16,20 +16,15 @@ from kano.gtk3.buttons import OrangeButton, KanoButton
 from kano.gtk3.heading import Heading
 from kano.gtk3.kano_dialog import KanoDialog
 from kano.network import is_internet, network_info, launch_chromium
-from kano_settings.data import get_data
 from kano_settings.system.proxy import get_all_proxies, set_all_proxies, test_proxy
 
 
 class SetWifi(Template):
     wifi_connection_attempted = False
-    data = get_data("SET_WIFI")
-    data_wifi = get_data("SET_WIFI_WIFI")
-    data_ethernet = get_data("SET_WIFI_ETHERNET")
-    data_offline = get_data("SET_WIFI_OFFLINE")
 
     def __init__(self, win):
 
-        Template.__init__(self, "", "to be set", "COMPLETE")
+        Template.__init__(self, "", _("not configured"), _("Complete").upper())
 
         self.win = win
         self.win.set_main_widget(self)
@@ -39,9 +34,9 @@ class SetWifi(Template):
         internet_img = Gtk.Image()
 
         # Very hacky way to centre the Proxy button - put spaces in the label
-        self.proxy_button = OrangeButton("Proxy  ")
+        self.proxy_button = OrangeButton(_("Proxy  "))
         self.proxy_button.connect("button-release-event", self.go_to_proxy)
-        self.disable_proxy = OrangeButton("Disable proxy")
+        self.disable_proxy = OrangeButton(_("Disable proxy"))
 
         self.win.change_prev_callback(self.win.go_to_home)
         self.win.top_bar.enable_prev()
@@ -71,14 +66,14 @@ class SetWifi(Template):
 
         if not common.has_internet or not network_info_dict:
             if network_info_dict:
-                description = self.data_offline["CONFIGURE_PROXY_OR_BROWSER"]
+                description = _("Use the browser to log in or configure proxy")
             else:
-                description = self.data_offline["CONFIGURE_WIRELESS"]
+                description = _("Configure wireless")
 
-            kano_label = self.data_offline["SKIP"]
-            title = self.data_offline["GET_CONNECTED"]
+            title = _("Get connected")
+            kano_label = _("Go back").upper()
 
-            self.add_connection = KanoButton("WIFI")
+            self.add_connection = KanoButton(_("WiFi").upper())
             self.add_connection.connect("button_release_event", self.configure_wifi)
             # We removed the ability to use keyboard to click, so we also remove ability
             # to get keyboard focus
@@ -105,7 +100,7 @@ class SetWifi(Template):
             configure_container.pack_end(self.proxy_button, False, False, 0)
 
         else:
-            self.kano_button.set_label("COMPLETE")
+            self.kano_button.set_label(_("Complete").upper())
 
             status_box.pack_start(internet_status, False, False, 3)
             status_box.pack_start(internet_action, False, False, 3)
@@ -120,27 +115,27 @@ class SetWifi(Template):
             internet_status.set_text(network_text)
             internet_action.set_text(ip)
 
-            go_to_portal_button = OrangeButton("Browser Login")
+            go_to_portal_button = OrangeButton(_("Browser Login"))
             go_to_portal_button.connect("button-press-event", launch_chromium)
             configure_container.pack_start(go_to_portal_button, False, False, 0)
 
             if network_text == 'Ethernet':
-                title = self.data_ethernet["LABEL_1"]
-                description = self.data_ethernet["LABEL_2"]
-                kano_label = self.data_ethernet["KANO_BUTTON"]
+                title = _("Connection found!")
+                description = _("You're on a wired network")
+                kano_label = _("Complete").upper()
 
                 # Change to ethernet image here
                 internet_img.set_from_file(common.media + "/Graphics/Internet-ethernetConnection.png")
 
             else:
-                title = self.data_wifi["LABEL_1"]
-                description = self.data_wifi["LABEL_2"]
-                kano_label = self.data_wifi["KANO_BUTTON"]
+                title = _("Connection found!")
+                description = _("You're on a wireless network")
+                kano_label = _("Complete").upper()
 
                 divider_label = Gtk.Label("|")
                 configure_container.pack_start(divider_label, False, False, 3)
 
-                configure_button = OrangeButton("Configure")
+                configure_button = OrangeButton(_("Configure"))
                 configure_button.connect("button_press_event", self.configure_wifi)
                 configure_container.pack_start(configure_button, False, False, 0)
 
@@ -170,14 +165,13 @@ class SetWifi(Template):
 
 
 class SetProxy(Gtk.Box):
-    data = get_data("SET_PROXY")
 
     def __init__(self, win):
 
-        title = self.data["LABEL_1"]
-        description = self.data["LABEL_2"]
-        self.kano_label_enable = self.data["KANO_BUTTON_ENABLE"]
-        self.kano_label_disable = self.data["KANO_BUTTON_DISABLE"]
+        title = _("Proxy")
+        description = _("Connect via a friend")
+        self.kano_label_enable = _("Enable proxy").upper()
+        self.kano_label_disable = _("Disable proxy").upper()
 
         Gtk.Box.__init__(self, orientation=Gtk.Orientation.VERTICAL)
         self.kano_button = KanoButton()
@@ -195,26 +189,26 @@ class SetProxy(Gtk.Box):
         self.win.change_prev_callback(self.go_to_wifi)
 
         self.ip_entry = Gtk.Entry()
-        self.ip_entry.props.placeholder_text = "IP address"
+        self.ip_entry.props.placeholder_text = _("IP address")
         self.ip_entry.connect("key-release-event", self.proxy_enabled)
 
         self.username_entry = Gtk.Entry()
-        self.username_entry.props.placeholder_text = "Username"
+        self.username_entry.props.placeholder_text = _("Username")
         self.username_entry.connect("key-release-event", self.proxy_enabled)
 
         self.port_entry = Gtk.Entry()
-        self.port_entry.props.placeholder_text = "Port"
+        self.port_entry.props.placeholder_text = _("Port")
         self.port_entry.connect("key-release-event", self.proxy_enabled)
 
         self.password_entry = Gtk.Entry()
-        self.password_entry.props.placeholder_text = "Password"
+        self.password_entry.props.placeholder_text = _("Password")
         self.password_entry.set_visibility(False)
         self.password_entry.connect("key-release-event", self.proxy_enabled)
 
         password_box = Gtk.Box()
         password_box.add(self.password_entry)
 
-        self.checkbutton = Gtk.CheckButton("enable proxy")
+        self.checkbutton = Gtk.CheckButton(_("Enable proxy"))
         self.read_config()
         self.checkbutton.connect("clicked", self.proxy_status)
         self.checkbutton.set_can_focus(False)
@@ -302,7 +296,7 @@ class SetProxy(Gtk.Box):
 
                     success, text = test_proxy()
                     if not success:
-                        title = "Error with proxy"
+                        title = _("Error with proxy")
                         description = text
                         return_value = 1
 
@@ -310,14 +304,14 @@ class SetProxy(Gtk.Box):
                         set_all_proxies(False)
                         common.proxy_enabled = False
                     else:
-                        title = "Successfully enabled proxy"
+                        title = _("Successfully enabled proxy")
                         description = ""
                         return_value = 0
 
                 else:
                     set_all_proxies(False)
                     common.proxy_enabled = False
-                    title = "Successfully disabled proxy"
+                    title = _("Successfully disabled proxy")
                     description = ""
                     return_value = 0
 
@@ -326,7 +320,7 @@ class SetProxy(Gtk.Box):
                         title,
                         description,
                         {
-                            "OK":
+                            _("OK").upper():
                             {
                                 "return_value": return_value
                             }

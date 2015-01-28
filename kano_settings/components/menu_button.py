@@ -13,7 +13,7 @@ import kano.gtk3.cursor as cursor
 
 
 class Menu_button():
-    def __init__(self, name, description=''):
+    def __init__(self, name, label, description=''):
 
         # Contains the info about the level and the image
         self.container = Gtk.Grid()
@@ -21,7 +21,7 @@ class Menu_button():
         self.container.props.margin = 20
 
         # Info about the different settings
-        self.title = Gtk.Label(name)
+        self.title = Gtk.Label(label)
         self.title.get_style_context().add_class("menu_intro_label")
         self.title.set_alignment(xalign=0, yalign=0)
         self.title.props.margin_top = 10

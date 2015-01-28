@@ -19,7 +19,6 @@ from kano.gtk3.labelled_entries import LabelledEntries
 from kano.utils import ensure_dir
 import kano_settings.common as common
 from kano_settings.templates import Template
-from kano_settings.data import get_data
 
 from kano_settings.system.account import add_user, delete_user, verify_current_password, change_password
 
@@ -28,7 +27,6 @@ ADD_REMOVE_USER_PATH = '/tmp/kano-init/add-remove'
 
 
 class SetAccount(Gtk.Box):
-    data = get_data("SET_ACCOUNT")
 
     def __init__(self, win):
         Gtk.Box.__init__(self, orientation=Gtk.Orientation.VERTICAL)
@@ -41,13 +39,13 @@ class SetAccount(Gtk.Box):
 
         self.added_or_removed_account = False
 
-        main_title = self.data["LABEL_1"]
-        main_description = self.data["LABEL_2"]
-        accounts_title = self.data["LABEL_3"]
-        accounts_description = self.data["LABEL_4"]
-        add_text = self.data["ADD_BUTTON"]
-        remove_text = self.data["REMOVE_BUTTON"]
-        pass_text = self.data["PASSWORD_BUTTON"]
+        main_title = _("System account settings")
+        main_description = _("Set your account")
+        accounts_title = _("Accounts")
+        accounts_description = _("Add or remove accounts")
+        add_text = _("Add account").upper()
+        remove_text = _("Remove account").upper()
+        pass_text = _("Change password").upper()
 
         main_heading = Heading(main_title, main_description)
 
@@ -99,8 +97,8 @@ class SetAccount(Gtk.Box):
 
         if not hasattr(event, 'keyval') or event.keyval == Gdk.KEY_Return:
             # Bring in message dialog box
-            dialog_title = self.data["ADD_ACCOUNT_DIALOG_TITLE"]
-            dialog_description = self.data["ADD_ACCOUNT_DIALOG_DESCRIPTION"]
+            dialog_title = _("Reboot the system.")
+            dialog_description = _("A new account will be created next time you reboot.")
 
             kdialog = kano_dialog.KanoDialog(
                 dialog_title,
@@ -119,17 +117,17 @@ class SetAccount(Gtk.Box):
     def remove_account_dialog(self, widget=None, event=None):
 
         if not hasattr(event, 'keyval') or event.keyval == Gdk.KEY_Return:
-            dialog_title = self.data["REMOVE_ACCOUNT_DIALOG_TITLE"]
-            dialog_description = self.data["REMOVE_ACCOUNT_DIALOG_DESCRIPTION"]
+            dialog_title = _("Are you sure you want to delete the current user?")
+            dialog_description = _("You will lose all the data on this account")
             # Bring in message dialog box
             kdialog = kano_dialog.KanoDialog(
                 dialog_title,
                 dialog_description,
                 {
-                    "OK": {
+                    _("OK").upper(): {
                         "return_value": -1
                     },
-                    "CANCEL": {
+                    _("Cancel").upper(): {
                         "return_value": 0
                     }
                 },
@@ -142,13 +140,13 @@ class SetAccount(Gtk.Box):
                 delete_user()
 
                 kdialog = kano_dialog.KanoDialog(
-                    "To finish removing this account, you need to reboot",
-                    "Do you want to reboot?",
+                    _("To finish removing this account, you need to reboot"),
+                    _("Do you want to reboot?"),
                     {
-                        "YES": {
+                        _("Yes").upper(): {
                             "return_value": -1
                         },
-                        "NO": {
+                        _("No").upper(): {
                             "return_value": 0,
                             "color": "red"
                         }
@@ -170,19 +168,18 @@ class SetAccount(Gtk.Box):
 
 
 class SetPassword(Template):
-    data = get_data("SET_PASSWORD")
 
     def __init__(self, win):
-        main_title = self.data["LABEL_1"]
-        main_description = self.data["LABEL_2"]
-        entry_heading_1 = self.data["ENTRY_HEADING_1"]
-        entry_heading_2 = self.data["ENTRY_HEADING_2"]
-        entry_heading_3 = self.data["ENTRY_HEADING_3"]
-        description_1 = self.data["DESCRIPTION_1"]
-        description_2 = self.data["DESCRIPTION_2"]
-        description_3 = self.data["DESCRIPTION_3"]
+        main_title = _("Change your password")
+        main_description = ""
+        entry_heading_1 = _("Old password")
+        entry_heading_2 = _("New password")
+        entry_heading_3 = _("Repeat new password")
+        description_1 = _("\"kano\" is default")
+        description_2 = ""
+        description_3 = ""
 
-        kano_text = self.data["KANO_BUTTON"]
+        kano_text = _("Change password").upper()
         Template.__init__(self, main_title, main_description, kano_text)
 
         self.labelled_entries = LabelledEntries(
@@ -238,7 +235,6 @@ class SetPassword(Template):
             self.kano_button.set_sensitive(False)
 
             def lengthy_process():
-                data = get_data("SET_PASSWORD")
                 old_password = self.entry1.get_text()
                 new_password1 = self.entry2.get_text()
                 new_password2 = self.entry3.get_text()
@@ -247,13 +243,13 @@ class SetPassword(Template):
                 password_verified = verify_current_password(old_password)
 
                 if not password_verified:
-                    title = "Could not change password"
-                    description = "Your old password is incorrect!"
+                    title = _("Could not change password")
+                    description = _("Your old password is incorrect!")
                 elif new_password1 == new_password2:
                     title, description, success = self.try_change_password(new_password1)
                 else:
-                    title = data["PASSWORD_ERROR_TITLE"]
-                    description = data["PASSWORD_ERROR_2"]
+                    title = _("Could not change password")
+                    description = _("The new passwords don't match! Try again!")
 
                 def done(title, description, success):
                     if success:
@@ -275,18 +271,17 @@ class SetPassword(Template):
 
     # Returns a title, description and whether the process was successful or not
     def try_change_password(self, new_password):
-        data = get_data("SET_PASSWORD")
         success = False
 
         cmdvalue = change_password(new_password)
 
         # if password is not changed
         if cmdvalue != 0:
-            title = data["PASSWORD_ERROR_TITLE"]
-            description = data["PASSWORD_ERROR_1"]
+            title = _("Could not change password")
+            description = _("Your new password is not long enough or contains special characters.")
         else:
-            title = data["PASSWORD_SUCCESS_TITLE"]
-            description = data["PASSWORD_SUCCESS_DESCRIPTION"]
+            title = _("Password changed!")
+            description = ""
             success = True
 
         return (title, description, success)
@@ -308,15 +303,15 @@ class SetPassword(Template):
         self.kano_button.set_sensitive(text1 != "" and text2 != "" and text3 != "")
 
 
-def create_error_dialog(message1="Could not change password", message2="", win=None):
+def create_error_dialog(message1=_("Could not change password"), message2="", win=None):
     kdialog = kano_dialog.KanoDialog(
         message1, message2,
         {
-            "TRY AGAIN":
+            _("Try again").upper():
             {
                 "return_value": -1
             },
-            "GO BACK":
+            _("Go back").upper():
             {
                 "return_value": 0,
                 "color": "red"

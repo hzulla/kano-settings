@@ -14,7 +14,6 @@ import kano_settings.system.keyboard_config as keyboard_config
 import kano_settings.common as common
 from kano_settings.templates import Template
 from kano_settings.config_file import get_setting, set_setting
-from kano_settings.data import get_data
 from kano.gtk3.buttons import OrangeButton
 from kano.gtk3.kano_combobox import KanoComboBox
 from kano.utils import detect_kano_keyboard
@@ -32,12 +31,11 @@ def choose_keyboard_screen(win):
 
 
 class SetKanoKeyboard(Template):
-    data = get_data("KANO_KEYBOARD")
 
     def __init__(self, win):
-        title = self.data["LABEL_1"]
-        description = self.data["LABEL_2"]
-        kano_label = self.data["KANO_BUTTON"]
+        title = _("Keyboard")
+        description = _("Kano keyboard detected")
+        kano_label = _("Apply changes").upper()
 
         Template.__init__(self, title, description, kano_label)
 
@@ -50,7 +48,7 @@ class SetKanoKeyboard(Template):
         img.set_from_file(common.media + "/Graphics/keyboard.png")
 
         # Link to advance options
-        self.to_advance_button = OrangeButton("Layout options")
+        self.to_advance_button = OrangeButton(_("Layout options"))
         self.to_advance_button.connect("button_press_event", self.to_advance)
 
         self.kano_button.connect("button-release-event", self.win.go_to_home)
@@ -82,12 +80,10 @@ class SetKeyboard(Template):
     continents = ['Africa', 'America', 'Asia', 'Australia', 'Europe', 'Others']
     kano_keyboard = True
 
-    data = get_data("SET_KEYBOARD")
-
     def __init__(self, win):
-        title = self.data["LABEL_1"]
-        description = self.data["LABEL_2"]
-        kano_label = self.data["KANO_BUTTON"]
+        title = _("Keyboard")
+        description = _("Where do you live? So I can set your keyboard")
+        kano_label = _("Apply changes").upper()
 
         Template.__init__(self, title, description, kano_label)
 
@@ -120,7 +116,7 @@ class SetKeyboard(Template):
         self.countries_combo.props.valign = Gtk.Align.CENTER
 
         # Create Advance mode checkbox
-        advance_button = Gtk.CheckButton("Advanced options")
+        advance_button = Gtk.CheckButton(_("Advanced options"))
         advance_button.set_can_focus(False)
         advance_button.props.valign = Gtk.Align.CENTER
         advance_button.connect("clicked", self.on_advance_mode)
