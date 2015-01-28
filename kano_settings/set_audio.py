@@ -11,19 +11,16 @@ import kano_settings.common as common
 from kano_settings.templates import Template
 from kano.logging import logger
 from kano_settings.config_file import get_setting
-from kano_settings.data import get_data
 from kano_settings.system.audio import set_to_HDMI, is_HDMI, hdmi_supported
 
 
 class SetAudio(Template):
     HDMI = False
 
-    data = get_data("SET_AUDIO")
-
     def __init__(self, win):
-        title = self.data["LABEL_1"]
-        description = self.data["LABEL_2"]
-        kano_label = self.data["KANO_BUTTON"]
+        title = _("Audio")
+        description = _("Get sound from your speaker or your TV")
+        kano_label = _("Apply changes").upper()
 
         Template.__init__(self, title, description, kano_label)
 
@@ -37,11 +34,11 @@ class SetAudio(Template):
         self.kano_button.connect("key-release-event", self.apply_changes)
 
         # Analog radio button
-        self.analog_button = Gtk.RadioButton.new_with_label_from_widget(None, "Speaker")
+        self.analog_button = Gtk.RadioButton.new_with_label_from_widget(None, _("Speaker"))
 
         # HDMI radio button
         self.hdmi_button = Gtk.RadioButton.new_from_widget(self.analog_button)
-        self.hdmi_button.set_label("TV     ")
+        self.hdmi_button.set_label(_("TV     "))
         self.hdmi_button.connect("toggled", self.on_button_toggled)
 
         # height is 106px

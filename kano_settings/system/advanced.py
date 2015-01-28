@@ -51,7 +51,7 @@ def set_parental_enabled(setting, _password):
         logger.debug('enabling hosts file')
         set_hosts_blacklist(True)
 
-        msg = "Parental lock enabled!"
+        msg = _("Parental lock enabled!")
         logger.debug(msg)
 
         return True, msg
@@ -68,14 +68,14 @@ def set_parental_enabled(setting, _password):
             logger.debug('disabling hosts file')
             set_hosts_blacklist(False)
 
-            msg = "Parental lock disabled!"
+            msg = _("Parental lock disabled!")
             logger.debug(msg)
 
             return True, msg
 
         # password doesn't match
         else:
-            msg = "Password doesn't match\nleaving parental lock enabled!"
+            msg = _("The password was incorrect.\nLeaving parental lock enabled!")
             logger.debug(msg)
 
             return False, msg

@@ -10,7 +10,6 @@ from gi.repository import Gdk
 from kano_settings.templates import RadioButtonTemplate
 import kano_settings.common as common
 from kano_settings.boot_config import get_config_value
-from kano_settings.data import get_data
 from kano_settings.system.overclock import change_overclock_value
 
 # 0 = None
@@ -25,21 +24,19 @@ class SetOverclock(RadioButtonTemplate):
     initial_button = 0
     boot_config_file = "/boot/config.txt"
 
-    data = get_data("SET_OVERCLOCK")
-
     def __init__(self, win):
 
-        title = self.data["LABEL_1"]
-        description = self.data["LABEL_2"]
-        kano_label = self.data["KANO_BUTTON"]
-        option1 = self.data["OPTION_1"]
-        desc1 = self.data["DESCRIPTION_1"]
-        option2 = self.data["OPTION_2"]
-        desc2 = self.data["DESCRIPTION_2"]
-        option3 = self.data["OPTION_3"]
-        desc3 = self.data["DESCRIPTION_3"]
-        option4 = self.data["OPTION_4"]
-        desc4 = self.data["DESCRIPTION_4"]
+        title = _("Overclock your processor")
+        description = _("Make your computer's brain think faster, but run hotter.")
+        kano_label = _("Apply changes").upper()
+        option1 = _("None")
+        option2 = _("Modest")
+        option3 = _("Medium")
+        option4 = _("High")
+        desc1 = _("(700MHz ARM, 250MHz core, 400MHz SDRAM, 0 overvolt)")
+        desc2 = _("(800MHz ARM, 300MHz core, 400MHz SDRAM, 0 overvolt)")
+        desc3 = _("(900MHz ARM, 333MHz core, 450MHz SDRAM, 2 overvolt)")
+        desc4 = _("(950MHz ARM, 450MHz core, 450MHz SDRAM, 6 overvolt)")
 
         RadioButtonTemplate.__init__(self, title, description, kano_label,
                                      [[option1, desc1],
@@ -96,15 +93,7 @@ class SetOverclock(RadioButtonTemplate):
         elif freq == 450:
             self.initial_button = 3
 
-    def on_button_toggled(self, button):
+    def on_button_toggled(self, button, selected):
 
         if button.get_active():
-            label = button.get_label()
-            if label == "None":
-                self.selected_button = 0
-            elif label == "Modest":
-                self.selected_button = 1
-            elif label == "Medium":
-                self.selected_button = 2
-            elif label == "High":
-                self.selected_button = 3
+            self.selected_button = selected

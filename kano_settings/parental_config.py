@@ -6,7 +6,6 @@ from kano_settings.templates import Template, EditableList
 from kano.gtk3.buttons import OrangeButton
 from kano.gtk3.kano_dialog import KanoDialog
 
-from kano_settings.data import get_data
 from kano_settings.config_file import get_setting, set_setting
 from system.advanced import write_whitelisted_sites, write_blacklisted_sites, \
     read_listed_sites, set_parental_level, authenticate_parental_password
@@ -14,13 +13,11 @@ from system.advanced import write_whitelisted_sites, write_blacklisted_sites, \
 
 class ParentalConfig(Template):
 
-    LANGUAGE = get_data('PARENTAL_CONFIG')
-
     def __init__(self, win):
 
-        title = self.LANGUAGE['TITLE']
-        description = self.LANGUAGE['DESCRIPTION']
-        kano_label = self.LANGUAGE['KANO_BUTTON']
+        title = _("Parental lock")
+        description = _("Configure your parental lock settings")
+        kano_label = _("Apply changes").upper()
 
         Template.__init__(self, title, description, kano_label)
 
@@ -34,12 +31,12 @@ class ParentalConfig(Template):
         self.parental_level.connect('value-changed', self._value_change_handler)
 
         self._parental_labels = [
-            (Gtk.Label(self.LANGUAGE['LOW']),
-             Gtk.Label(self.LANGUAGE['LOW_DESC'])),
-            (Gtk.Label(self.LANGUAGE['MEDIUM']),
-             Gtk.Label(self.LANGUAGE['MEDIUM_DESC'])),
-            (Gtk.Label(self.LANGUAGE['HIGH']),
-             Gtk.Label(self.LANGUAGE['HIGH_DESC']))
+            (Gtk.Label(_("Low Settings")),
+             Gtk.Label(_("Blocks blacklisted websites"))),
+            (Gtk.Label(_("Medium Settings")),
+             Gtk.Label(_("Switch to use filtering DNS servers"))),
+            (Gtk.Label(_("High Settings")),
+             Gtk.Label(_("Enable everything")))
         ]
 
         self._value_change_handler(self.parental_level)
@@ -53,7 +50,7 @@ class ParentalConfig(Template):
         parental_level_grid.attach(self._parental_labels[0][0], 1, 4, 1, 1)
         parental_level_grid.attach(self._parental_labels[0][1], 1, 5, 1, 1)
 
-        blacklist_button = OrangeButton("Configure allowed/blocked")
+        blacklist_button = OrangeButton(_("Configure allowed/blocked"))
         blacklist_button.connect("button-press-event",
                                  self.go_to_blacklist)
 
@@ -114,12 +111,10 @@ class SiteList(EditableList):
 
 class AllowedSites(Template):
 
-    LANGUAGE = get_data('PARENTAL_BLACKLIST')
-
     def __init__(self, win):
-        title = self.LANGUAGE['TITLE']
-        description = self.LANGUAGE['DESCRIPTION']
-        kano_label = self.LANGUAGE['KANO_BUTTON']
+        title = _("Allow and block sites")
+        description = _("Add extra sites to block or allow")
+        kano_label = _("Apply changes").upper()
 
         self.win = win
 
@@ -142,10 +137,10 @@ class AllowedSites(Template):
         grid.set_column_spacing(40)
 
         grid.attach(
-            Gtk.Label(self.LANGUAGE['BLACKLIST']), 0, 0, 1, 1)
+            Gtk.Label(_("Add extra sites to block")), 0, 0, 1, 1)
         grid.attach(self.blacklist, 0, 1, 1, 1)
         grid.attach(
-            Gtk.Label(self.LANGUAGE['WHITELIST']), 1, 0, 1, 1)
+            Gtk.Label(_("Something blocked that shouldn't be?")), 1, 0, 1, 1)
         grid.attach(self.whitelist, 1, 1, 1, 1)
         self.box.pack_start(grid, False, False, 0)
 
@@ -190,8 +185,8 @@ class ParentalPasswordDialog(KanoDialog):
         entry.set_visibility(False)
         KanoDialog.__init__(
             self,
-            title_text='Parental Authentication',
-            description_text='Enter your parental password:',
+            title_text=_("Parental Authentication"),
+            description_text=_("Enter the password of the parental lock"),
             widget=entry,
             has_entry=True,
             global_style=True,
@@ -205,8 +200,8 @@ class ParentalPasswordDialog(KanoDialog):
             return True
 
         fail = KanoDialog(
-            title_text='Try again?',
-            description_text='The password was incorrect. Not applying changes',
+            title_text=_("Try again!"),
+            description_text=_("The password was incorrect.\nNot applying changes."),
             parent_window=self
         )
         fail.run()

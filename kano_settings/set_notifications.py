@@ -10,21 +10,19 @@
 
 from gi.repository import Gdk
 from kano_settings.templates import RadioButtonTemplate
-from kano_settings.data import get_data
 import kano.notifications as notifications
 
 
 class SetNotifications(RadioButtonTemplate):
-    data = get_data("SET_NOTIFICATIONS")
 
     def __init__(self, win):
 
-        main_title = self.data["LABEL_1"]
-        main_description = self.data["LABEL_2"]
-        radiobox_desc_1 = self.data["DESCRIPTION_1"]
-        radiobox_desc_2 = self.data["DESCRIPTION_2"]
-        radiobox_desc_3 = self.data["DESCRIPTION_3"]
-        kano_button_label = self.data["KANO_BUTTON"]
+        main_title = _("Notifications")
+        main_description = _("Here you can manage the built-in notification system")
+        radiobox_desc_1 = _("Show all notifications")
+        radiobox_desc_2 = _("Hide all notifications")
+        radiobox_desc_3 = _("Hide only Kano World notifications")
+        kano_button_label = _("Apply changes").upper()
 
         RadioButtonTemplate.__init__(self, main_title, main_description,
                                      kano_button_label,
