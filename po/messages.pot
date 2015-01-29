@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-01-28 10:44+0100\n"
+"POT-Creation-Date: 2015-01-29 14:46+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,6 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 
 #: bin/kano-settings:60 bin/kano-settings:62
+#: lxpanel-plugin/kano_settings.c:134
 msgid "Settings"
 msgstr ""
 
@@ -38,6 +39,7 @@ msgid "Later"
 msgstr ""
 
 #: kano_settings/set_display.py:23 kano_settings/home_screen.py:30
+#: lxpanel-plugin/kano_settings.c:158
 msgid "Display"
 msgstr ""
 
@@ -229,6 +231,7 @@ msgid "Go back"
 msgstr ""
 
 #: kano_settings/set_mouse.py:23 kano_settings/home_screen.py:30
+#: lxpanel-plugin/kano_settings.c:146
 msgid "Mouse"
 msgstr ""
 
@@ -500,7 +503,7 @@ msgid "(950MHz ARM, 450MHz core, 450MHz SDRAM, 6 overvolt)"
 msgstr ""
 
 #: kano_settings/set_keyboard.py:36 kano_settings/set_keyboard.py:84
-#: kano_settings/home_screen.py:30
+#: kano_settings/home_screen.py:30 lxpanel-plugin/kano_settings.c:140
 msgid "Keyboard"
 msgstr ""
 
@@ -517,6 +520,7 @@ msgid "Where do you live? So I can set your keyboard"
 msgstr ""
 
 #: kano_settings/set_audio.py:21 kano_settings/home_screen.py:30
+#: lxpanel-plugin/kano_settings.c:152
 msgid "Audio"
 msgstr ""
 
@@ -561,7 +565,7 @@ msgstr ""
 msgid "Get connected"
 msgstr ""
 
-#: kano_settings/set_wifi.py:76
+#: kano_settings/set_wifi.py:76 lxpanel-plugin/kano_settings.c:164
 msgid "WiFi"
 msgstr ""
 
@@ -638,6 +642,7 @@ msgid "About"
 msgstr ""
 
 #: kano_settings/home_screen.py:117
+#: lxpanel-plugin-internet/kano_internet.c:199
 msgid "Connected"
 msgstr ""
 
@@ -677,4 +682,32 @@ msgstr ""
 msgid ""
 "The password was incorrect.\n"
 "Leaving parental lock enabled!"
+msgstr ""
+
+#: lxpanel-plugin-internet/kano_internet.c:185
+msgid "Internet status"
+msgstr ""
+
+#: lxpanel-plugin-internet/kano_internet.c:206
+msgid "Connect"
+msgstr ""
+
+#: lxpanel-plugin-internet/kano_internet.c:289
+msgid "Kano Internet"
+msgstr ""
+
+#: lxpanel-plugin-internet/kano_internet.c:290
+msgid "Shows the status of your internet connection."
+msgstr ""
+
+#: lxpanel-plugin/kano_settings.c:170
+msgid "All settings"
+msgstr ""
+
+#: lxpanel-plugin/kano_settings.c:252
+msgid "Kano Settings"
+msgstr ""
+
+#: lxpanel-plugin/kano_settings.c:253
+msgid "A quick access to important settings."
 msgstr ""
