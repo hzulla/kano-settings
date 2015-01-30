@@ -134,7 +134,8 @@ class HomeScreen(Gtk.Box):
                     "None" : _("None"),
                     "Modest" : _("Modest"),
                     "Medium" : _("Medium"),
-                    "High" : _("High")
+                    "High" : _("High"),
+                    "Turbo" : _("Turbo")
                 }.get(get_setting(self.custom_info[x]))
 
             elif self.names[x] == 'Font':

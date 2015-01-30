@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-01-29 14:46+0100\n"
+"POT-Creation-Date: 2015-01-30 12:31+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -47,7 +47,7 @@ msgstr ""
 #: kano_settings/set_notifications.py:25 kano_settings/set_wallpaper.py:29
 #: kano_settings/parental_config.py:20 kano_settings/parental_config.py:117
 #: kano_settings/set_font.py:34 kano_settings/set_mouse.py:25
-#: kano_settings/set_advanced.py:25 kano_settings/set_overclock.py:31
+#: kano_settings/set_advanced.py:25 kano_settings/set_overclock.py:32
 #: kano_settings/set_keyboard.py:38 kano_settings/set_keyboard.py:86
 #: kano_settings/set_audio.py:23
 msgid "Apply changes"
@@ -196,16 +196,16 @@ msgstr ""
 msgid "Choose a comfortable text size"
 msgstr ""
 
-#: kano_settings/set_font.py:35 kano_settings/home_screen.py:142
+#: kano_settings/set_font.py:35 kano_settings/home_screen.py:143
 msgid "Small"
 msgstr ""
 
 #: kano_settings/set_font.py:36 kano_settings/set_mouse.py:27
-#: kano_settings/home_screen.py:128 kano_settings/home_screen.py:143
+#: kano_settings/home_screen.py:128 kano_settings/home_screen.py:144
 msgid "Normal"
 msgstr ""
 
-#: kano_settings/set_font.py:37 kano_settings/home_screen.py:144
+#: kano_settings/set_font.py:37 kano_settings/home_screen.py:145
 msgid "Big"
 msgstr ""
 
@@ -462,44 +462,52 @@ msgstr ""
 msgid "Password changed!"
 msgstr ""
 
-#: kano_settings/set_overclock.py:29
+#: kano_settings/set_overclock.py:30
 msgid "Overclock your processor"
 msgstr ""
 
-#: kano_settings/set_overclock.py:30
+#: kano_settings/set_overclock.py:31
 msgid "Make your computer's brain think faster, but run hotter."
 msgstr ""
 
-#: kano_settings/set_overclock.py:32 kano_settings/home_screen.py:134
+#: kano_settings/set_overclock.py:33 kano_settings/home_screen.py:134
 msgid "None"
 msgstr ""
 
-#: kano_settings/set_overclock.py:33 kano_settings/home_screen.py:135
+#: kano_settings/set_overclock.py:34 kano_settings/home_screen.py:135
 msgid "Modest"
 msgstr ""
 
-#: kano_settings/set_overclock.py:34 kano_settings/home_screen.py:136
+#: kano_settings/set_overclock.py:35 kano_settings/home_screen.py:136
 msgid "Medium"
 msgstr ""
 
-#: kano_settings/set_overclock.py:35 kano_settings/home_screen.py:137
+#: kano_settings/set_overclock.py:36 kano_settings/home_screen.py:137
 msgid "High"
 msgstr ""
 
-#: kano_settings/set_overclock.py:36
-msgid "(700MHz ARM, 250MHz core, 400MHz SDRAM, 0 overvolt)"
-msgstr ""
-
-#: kano_settings/set_overclock.py:37
-msgid "(800MHz ARM, 300MHz core, 400MHz SDRAM, 0 overvolt)"
+#: kano_settings/set_overclock.py:37 kano_settings/home_screen.py:138
+msgid "Turbo"
 msgstr ""
 
 #: kano_settings/set_overclock.py:38
-msgid "(900MHz ARM, 333MHz core, 450MHz SDRAM, 2 overvolt)"
+msgid "( 700MHz ARM, 250MHz core, 400MHz SDRAM, 0 overvolt)"
 msgstr ""
 
 #: kano_settings/set_overclock.py:39
-msgid "(950MHz ARM, 450MHz core, 450MHz SDRAM, 6 overvolt)"
+msgid "( 800MHz ARM, 250MHz core, 400MHz SDRAM, 0 overvolt)"
+msgstr ""
+
+#: kano_settings/set_overclock.py:40
+msgid "( 900MHz ARM, 250MHz core, 450MHz SDRAM, 2 overvolt)"
+msgstr ""
+
+#: kano_settings/set_overclock.py:41
+msgid "( 950MHz ARM, 250MHz core, 450MHz SDRAM, 6 overvolt)"
+msgstr ""
+
+#: kano_settings/set_overclock.py:42
+msgid "(1000MHz ARM, 500MHz core, 600MHz SDRAM, 6 overvolt)"
 msgstr ""
 
 #: kano_settings/set_keyboard.py:36 kano_settings/set_keyboard.py:84
@@ -528,7 +536,7 @@ msgstr ""
 msgid "Get sound from your speaker or your TV"
 msgstr ""
 
-#: kano_settings/set_audio.py:37 kano_settings/home_screen.py:149
+#: kano_settings/set_audio.py:37 kano_settings/home_screen.py:150
 msgid "Speaker"
 msgstr ""
 
@@ -650,7 +658,7 @@ msgstr ""
 msgid "Not connected"
 msgstr ""
 
-#: kano_settings/home_screen.py:150
+#: kano_settings/home_screen.py:151
 msgid "TV"
 msgstr ""
 
@@ -659,14 +667,17 @@ msgid "Problem connecting to the proxy server"
 msgstr ""
 
 #: kano_settings/system/about.py:18
+#, python-brace-format
 msgid "Kano OS v.{version}"
 msgstr ""
 
 #: kano_settings/system/about.py:27
+#, python-brace-format
 msgid "Disk space used: {used}B / {total}B"
 msgstr ""
 
 #: kano_settings/system/about.py:35
+#, python-brace-format
 msgid "Temperature: {celsius:.1f}°C"
 msgstr ""
 
