@@ -31,7 +31,7 @@
 
 #define SETTINGS_CMD "sudo kano-settings "
 #define SOUND_CMD "/usr/bin/aplay /usr/share/kano-media/sounds/kano_open_app.wav"
-#define PLUGIN_TOOLTIP "Kano Settings"
+#define PLUGIN_TOOLTIP _("Kano Settings")
 
 typedef struct {
     LXPanel *panel;

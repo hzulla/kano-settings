@@ -31,7 +31,7 @@
 #define SETTINGS_CMD "sudo /usr/bin/kano-settings 4"
 #define RECONNECT_CMD "sudo /usr/bin/kano-connect -c wlan0"
 #define SOUND_CMD "/usr/bin/aplay /usr/share/kano-media/sounds/kano_open_app.wav"
-#define PLUGIN_TOOLTIP "Internet status"
+#define PLUGIN_TOOLTIP _("Internet status")
 
 #define MINUTE 60
 
