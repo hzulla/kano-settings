@@ -3,9 +3,7 @@ APPNAME=kano-settings
 MSGLANGS=$(notdir $(wildcard *po))
 MSGOBJS=$(addprefix ../locale/,$(MSGLANGS:.po=/LC_MESSAGES/$(APPNAME).mo))
 
-.PHONY: clean
-
-.FORCE: messages
+.PHONY: clean messages
 
 build: $(MSGOBJS)
 
@@ -15,12 +13,13 @@ clean:
 	rm -f messages.pot
 	rm -rf ../locale
 
-define run-xgettext = 
+define run-xgettext
 xgettext -f PYPOTFILES -L Python --force-po -o messages.pot
 xgettext -f CPOTFILES -L C -k_ -kN_ -j -o messages.pot
 endef
 
 messages:
+	rm -f messages.pot
 	$(run-xgettext)
 
 messages.pot:
