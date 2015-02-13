@@ -19,7 +19,6 @@ xgettext -f CPOTFILES -L C -k_ -kN_ -j -o messages.pot
 endef
 
 messages:
-	rm -f messages.pot
 	$(run-xgettext)
 
 messages.pot:
