@@ -19,7 +19,8 @@ if __name__ == '__main__' and __package__ is None:
     if dir_path != '/usr':
         sys.path.insert(1, dir_path)
 
-gettext.install('kano-settings', dir_path + '/locale' if dir_path != '/usr' else None, unicode=1)
+locale_path = os.path.join(dir_path, 'locale') if dir_path != '/usr' else None
+gettext.install('kano-settings', locale_path, unicode=1)
 
 import kano_settings.common as common
 from kano_settings.home_screen import HomeScreen

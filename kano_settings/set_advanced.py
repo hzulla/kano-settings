@@ -53,7 +53,11 @@ class SetAdvanced(Template):
 
     def create_parental_button(self):
         title = _("Parental lock")
-        desc = _("This will:\n- Block mature videos on YouTube\n- Block mature websites in browser").split('\n')
+        desc = _(
+            "This will:\n"
+            "- Block mature videos on YouTube\n"
+            "- Block mature websites in browser"
+        ).split('\n')
         self.parental_button = Gtk.CheckButton()
         box = LabelledListTemplate.label_button(self.parental_button,
                                                 title, desc[0])
@@ -87,7 +91,11 @@ class SetAdvanced(Template):
 
     def create_debug_button(self):
         title = _("Debug mode")
-        desc = _("Having problems?\n1) Enable this mode\n2) Report a bug with the ? tool on the Desktop").split('\n')
+        desc = _(
+            "Having problems?\n"
+            "1) Enable this mode\n"
+            "2) Report a bug with the ? tool on the Desktop"
+        ).split('\n')
         self.debug_button = Gtk.CheckButton()
         box = LabelledListTemplate.label_button(self.debug_button,
                                                 title, desc[0])
