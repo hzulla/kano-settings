@@ -25,10 +25,16 @@ from kano.utils import get_user_unsudoed
 
 class HomeScreen(Gtk.Box):
 
-    names = ["Keyboard", "Mouse", "Audio", "Display", "Wifi", "Overclocking", "Account", "Wallpaper", "Font",
-             "Advanced", "About", "Notifications"]
-    custom_info = ["Keyboard-country-human", "Mouse", "Audio", None, None, "Overclocking", None,
-                   "Wallpaper", "Font"]
+    # deferred i18n translation
+    def _(m): return m
+    names = [_("Keyboard"), _("Mouse"), _("Audio"), _("Display"),
+             _("Wifi"), _("Overclocking"), _("Account"), _("Wallpaper"),
+             _("Font"), _("Advanced"), _("About"), _("Notifications")]
+    del _
+    
+    custom_info = ["Keyboard-country-human", "Mouse", "Audio", None,
+                   None, "Overclocking", None, "Wallpaper",
+                   "Font"]
 
     def __init__(self, win, screen_number=None):
         # Check if we want to initialise another window first
@@ -58,7 +64,7 @@ class HomeScreen(Gtk.Box):
 
         # names at top of file
         for x in range(len(self.names)):
-            self.item = Menu_button(self.names[x], '')
+            self.item = Menu_button(self.names[x], _(self.names[x]), '')
             self.labels.append(self.item.description)
             # Update the state of the button, so we know which button has been clicked on.
             self.item.button.state = x
@@ -104,26 +110,55 @@ class HomeScreen(Gtk.Box):
     def update_intro(self):
         for x in range(len(self.custom_info)):
 
+            text = ''
+            
             if self.names[x] == 'Wifi':
-                text = ''
                 if common.has_internet:
-                    text = 'Connected'
+                    text = _('Connected')
                 else:
-                    text = 'Not connected'
-                self.labels[x].set_text(text)
+                    text = _('Not connected')
+                
 
             elif self.names[x] == 'Account':
                 text = get_user_unsudoed()
+
+            elif self.names[x] == 'Mouse':
+                text = {
+                    "Slow" : _("Slow"),
+                    "Normal" : _("Normal"),
+                    "Fast" : _("Fast")
+                }.get(get_setting(self.custom_info[x]))
+
+            elif self.names[x] == 'Overclocking':
+                text = {
+                    "None" : _("None"),
+                    "Modest" : _("Modest"),
+                    "Medium" : _("Medium"),
+                    "High" : _("High"),
+                    "Turbo" : _("Turbo")
+                }.get(get_setting(self.custom_info[x]))
+
+            elif self.names[x] == 'Font':
+                text = {
+                    "Small" : _("Small"),
+                    "Normal" : _("Normal"),
+                    "Big" : _("Big")
+                }.get(get_setting(self.custom_info[x]))
+                
+            elif self.names[x] == 'Audio':
+                text = {
+                    "Analogue" : _("Speaker"),
+                    "HDMI" : _("TV")
+                }.get(get_setting(self.custom_info[x]))
+
+            elif self.custom_info[x] != None:
+                text = get_setting(self.custom_info[x])
+                
+            if len(text) > 13:
+                text = text[:13] + u"\N{HORIZONTAL ELLIPSIS}"
+            
+            if text != '':
                 self.labels[x].set_text(text)
-
-            elif self.names[x] == 'Display':
-                continue
-
-            else:
-                label_info = get_setting(self.custom_info[x])
-                if len(label_info) > 13:
-                    label_info = label_info[:13] + "..."
-                self.labels[x].set_text(label_info)
 
     # When clicking next in the default intro screen - takes you to the last level you visited
     def on_next(self, widget=None, arg2=None):

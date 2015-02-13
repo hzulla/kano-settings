@@ -12,7 +12,6 @@ from kano.gtk3.kano_dialog import KanoDialog
 from kano.gtk3.buttons import OrangeButton, KanoButton
 from kano_profile.paths import legal_dir
 from kano_settings.common import media
-from kano_settings.data import get_data
 from kano_settings.system.about import (get_current_version, get_space_available, get_temperature)
 
 
@@ -20,11 +19,7 @@ class SetAbout(Gtk.Box):
     selected_button = 0
     initial_button = 0
 
-    data = get_data("SET_ABOUT")
-
     def __init__(self, win):
-
-        kano_label = self.data["KANO_BUTTON"]
 
         Gtk.Box.__init__(self, orientation=Gtk.Orientation.VERTICAL)
 
@@ -42,10 +37,10 @@ class SetAbout(Gtk.Box):
         space_align = self.create_other_align(space_available)
         temperature_align = self.create_other_align(temperature)
 
-        terms_and_conditions = OrangeButton("Terms and conditions")
+        terms_and_conditions = OrangeButton(_("Terms and conditions"))
         terms_and_conditions.connect("button_release_event", self.show_terms_and_conditions)
 
-        self.kano_button = KanoButton(kano_label)
+        self.kano_button = KanoButton(_("Go back").upper())
         self.kano_button.pack_and_align()
 
         image.set_margin_top(30)
@@ -88,7 +83,7 @@ class SetAbout(Gtk.Box):
             with open(legal_dir + file, 'r') as f:
                 legal_text = legal_text + f.read() + '\n\n\n'
 
-        kdialog = KanoDialog("Terms and conditions", "",
+        kdialog = KanoDialog(_("Terms and conditions"), "",
                              scrolled_text=legal_text,
                              parent_window=self.win)
         kdialog.run()

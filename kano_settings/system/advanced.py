@@ -52,7 +52,7 @@ def set_parental_enabled(setting, _password):
         logger.debug('enabling hosts file')
         set_hosts_blacklist(True)
 
-        msg = "Parental lock enabled!"
+        msg = _("Parental lock enabled!")
         logger.debug(msg)
 
         return True, msg
@@ -69,14 +69,14 @@ def set_parental_enabled(setting, _password):
             logger.debug('disabling hosts file')
             set_hosts_blacklist(False)
 
-            msg = "Parental lock disabled!"
+            msg = _("Parental lock disabled!")
             logger.debug(msg)
 
             return True, msg
 
         # password doesn't match
         else:
-            msg = "Password doesn't match\nleaving parental lock enabled!"
+            msg = _("The password was incorrect.\nLeaving parental lock enabled!")
             logger.debug(msg)
 
             return False, msg
@@ -122,7 +122,7 @@ def set_hosts_blacklist(enable, blacklist_file='/usr/share/kano-settings/media/P
             shutil.copyfile(hosts_file, hosts_file_backup)
 
             logger.debug('appending the blacklist`')
-            os.system('zcat %s >> %s' % (blacklist_file, hosts_file))
+            os.system('zcat {} >> {}'.format(blacklist_file, hosts_file))
 
             logger.debug('making the file root read-only')
             os.chmod(hosts_file, 0644)

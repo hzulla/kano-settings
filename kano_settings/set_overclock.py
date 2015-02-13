@@ -10,7 +10,6 @@ from gi.repository import Gdk
 from kano_settings.templates import RadioButtonTemplate
 import kano_settings.common as common
 from kano_settings.boot_config import get_config_value
-from kano_settings.data import get_data
 from kano_settings.system.overclock import change_overclock_value
 
 # 0 = None
@@ -26,23 +25,21 @@ class SetOverclock(RadioButtonTemplate):
     initial_button = 0
     boot_config_file = "/boot/config.txt"
 
-    data = get_data("SET_OVERCLOCK")
-
     def __init__(self, win):
 
-        title = self.data["LABEL_1"]
-        description = self.data["LABEL_2"]
-        kano_label = self.data["KANO_BUTTON"]
-        option1 = self.data["OPTION_1"]
-        desc1 = self.data["DESCRIPTION_1"]
-        option2 = self.data["OPTION_2"]
-        desc2 = self.data["DESCRIPTION_2"]
-        option3 = self.data["OPTION_3"]
-        desc3 = self.data["DESCRIPTION_3"]
-        option4 = self.data["OPTION_4"]
-        desc4 = self.data["DESCRIPTION_4"]
-        option5 = self.data["OPTION_5"]
-        desc5 = self.data["DESCRIPTION_5"]
+        title = _("Overclock your processor")
+        description = _("Make your computer's brain think faster, but run hotter.")
+        kano_label = _("Apply changes").upper()
+        option1 = _("None")
+        option2 = _("Modest")
+        option3 = _("Medium")
+        option4 = _("High")
+        option5 = _("Turbo")
+        desc1 = _("( 700MHz ARM, 250MHz core, 400MHz SDRAM, 0 overvolt)")
+        desc2 = _("( 800MHz ARM, 250MHz core, 400MHz SDRAM, 0 overvolt)")
+        desc3 = _("( 900MHz ARM, 250MHz core, 450MHz SDRAM, 2 overvolt)")
+        desc4 = _("( 950MHz ARM, 250MHz core, 450MHz SDRAM, 6 overvolt)")
+        desc5 = _("(1000MHz ARM, 500MHz core, 600MHz SDRAM, 6 overvolt)")
 
         RadioButtonTemplate.__init__(self, title, description, kano_label,
                                      [[option1, desc1],
@@ -70,12 +67,12 @@ class SetOverclock(RadioButtonTemplate):
         # If enter key is pressed or mouse button is clicked
         if not hasattr(event, 'keyval') or event.keyval == Gdk.KEY_Return:
 
-            #  Mode      arm_freq       core_freq      sdram_freq   over_voltage
-            #  None;     700 MHz ARM,  250 MHz core, 400 MHz SDRAM, 0 overvolt
-            #  Modest;   800 MHz ARM,  250 MHz core, 400 MHz SDRAM, 0 overvolt
-            #  Medium;   900 MHz ARM,  250 MHz core, 450 MHz SDRAM, 2 overvolt
-            #  High;     950 MHz ARM,  250 MHz core, 450 MHz SDRAM, 6 overvolt
-            #  Turbo;    1000 MHz ARM, 500 MHz core, 600 MHz SDRAM, 6 overvolt
+            #  Mode      arm_freq       core_freq      sdram_freq     over_voltage
+            #  None;      700 MHz ARM,  250 MHz core,  400 MHz SDRAM, 0 overvolt
+            #  Modest;    800 MHz ARM,  250 MHz core,  400 MHz SDRAM, 0 overvolt
+            #  Medium;    900 MHz ARM,  250 MHz core,  450 MHz SDRAM, 2 overvolt
+            #  High;      950 MHz ARM,  250 MHz core,  450 MHz SDRAM, 6 overvolt
+            #  Turbo;    1000 MHz ARM,  500 MHz core,  600 MHz SDRAM, 6 overvolt
 
             # Mode has no changed
             if self.initial_button == self.selected_button:
@@ -103,17 +100,7 @@ class SetOverclock(RadioButtonTemplate):
         elif freq == 1000:
             self.initial_button = 4
 
-    def on_button_toggled(self, button):
+    def on_button_toggled(self, button, selected):
 
         if button.get_active():
-            label = button.get_label()
-            if label == "None":
-                self.selected_button = 0
-            elif label == "Modest":
-                self.selected_button = 1
-            elif label == "Medium":
-                self.selected_button = 2
-            elif label == "High":
-                self.selected_button = 3
-            elif label == "Turbo":
-                self.selected_button = 4
+            self.selected_button = selected

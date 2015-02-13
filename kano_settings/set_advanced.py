@@ -15,17 +15,14 @@ from kano_settings.templates import Template, LabelledListTemplate
 from system.advanced import get_parental_enabled, set_parental_enabled
 from parental_config import ParentalConfig
 
-from kano_settings.data import get_data
-
 
 class SetAdvanced(Template):
-    data = get_data("SET_ADVANCED")
 
     def __init__(self, win):
 
-        title = self.data["LABEL_1"]
-        description = self.data["LABEL_2"]
-        kano_label = self.data["KANO_BUTTON"]
+        title = _("Advanced options")
+        description = _("Toggle parental lock and debug mode")
+        kano_label = _("Apply changes").upper()
 
         Template.__init__(self, title, description, kano_label)
 
@@ -55,15 +52,17 @@ class SetAdvanced(Template):
         self.win.show_all()
 
     def create_parental_button(self):
-        title = self.data["OPTION_1"]
-        desc_1 = self.data["DESCRIPTION_1_1"]
-        desc_2 = self.data["DESCRIPTION_1_2"]
-        desc_3 = self.data["DESCRIPTION_1_3"]
+        title = _("Parental lock")
+        desc = _(
+            "This will:\n"
+            "- Block mature videos on YouTube\n"
+            "- Block mature websites in browser"
+        ).split('\n')
         self.parental_button = Gtk.CheckButton()
         box = LabelledListTemplate.label_button(self.parental_button,
-                                                title, desc_1)
+                                                title, desc[0])
 
-        text_array = [desc_2, desc_3]
+        text_array = desc[1:]
 
         grid = Gtk.Grid()
         grid.attach(box, 0, 0, 1, 1)
@@ -79,7 +78,7 @@ class SetAdvanced(Template):
             i = i + 1
 
         if get_parental_enabled():
-            parental_config_button = OrangeButton("Configure")
+            parental_config_button = OrangeButton(_("Configure"))
             parental_config_button.connect("button-press-event",
                                            self.go_to_parental_config)
             grid.attach(parental_config_button, 0, i, 1, 1)
@@ -91,15 +90,17 @@ class SetAdvanced(Template):
         ParentalConfig(self.win)
 
     def create_debug_button(self):
-        title = self.data["OPTION_2"]
-        desc_1 = self.data["DESCRIPTION_2_1"]
-        desc_2 = self.data["DESCRIPTION_2_2"]
-        desc_3 = self.data["DESCRIPTION_2_3"]
+        title = _("Debug mode")
+        desc = _(
+            "Having problems?\n"
+            "1) Enable this mode\n"
+            "2) Report a bug with the ? tool on the Desktop"
+        ).split('\n')
         self.debug_button = Gtk.CheckButton()
         box = LabelledListTemplate.label_button(self.debug_button,
-                                                title, desc_1)
+                                                title, desc[0])
 
-        text_array = [desc_2, desc_3]
+        text_array = desc[1:]
 
         grid = Gtk.Grid()
         grid.attach(box, 0, 0, 1, 1)
@@ -135,14 +136,14 @@ class SetAdvanced(Template):
                 # set debug on:
                 logging.set_system_log_level('debug')
                 logging.Logger().info('setting logging to debug')
-                msg = "Activated"
+                msg = _("Activated")
             else:
                 # set debug off:
                 logging.set_system_log_level('error')
                 logging.Logger().info('setting logging to error')
-                msg = "De-activated"
+                msg = _("De-activated")
 
-            kdialog = KanoDialog("Debug mode", msg, parent_window=self.win)
+            kdialog = KanoDialog(_("Debug mode"), msg, parent_window=self.win)
             kdialog.run()
 
             self.kano_button.set_sensitive(False)
@@ -159,8 +160,6 @@ class SetAdvanced(Template):
 
 
 class SetPassword(Template):
-    data_lock = get_data("PARENTAL_LOCK")
-    data_unlock = get_data("PARENTAL_UNLOCK")
 
     def __init__(self, win):
 
@@ -173,10 +172,10 @@ class SetPassword(Template):
 
         # if enabled, turning off
         if self.parental_enabled:
-            title = self.data_unlock["LABEL_1"]
-            description = self.data_unlock["LABEL_2"]
-            kano_label = self.data_unlock["KANO_BUTTON"]
-            placeholder_1 = self.data_lock["PLACEHOLDER_1"]
+            title = _("Unlock the parental lock")
+            description = _("Enter the password of the parental lock")
+            kano_label = _("Unlock").upper()
+            placeholder_1 = _("Enter password")
 
             Template.__init__(self, title, description, kano_label)
             self.entry = Gtk.Entry()
@@ -188,11 +187,11 @@ class SetPassword(Template):
 
         # if disabled, turning on
         else:
-            title = self.data_lock["LABEL_1"]
-            description = self.data_lock["LABEL_2"]
-            kano_label = self.data_lock["KANO_BUTTON"]
-            placeholder_1 = self.data_lock["PLACEHOLDER_1"]
-            placeholder_2 = self.data_lock["PLACEHOLDER_2"]
+            title = _("Set up your parental lock")
+            description = _("Select a password to enable the parental lock")
+            kano_label = _("Lock").upper()
+            placeholder_1 = _("Select password")
+            placeholder_2 = _("Confirm password")
 
             Template.__init__(self, title, description, kano_label)
             self.entry1 = Gtk.Entry()
@@ -251,8 +250,8 @@ class SetPassword(Template):
                     password = self.entry1.get_text()
                     password2 = self.entry2.get_text()
                     passed_test = (password == password2)
-                    error_heading = self.data_lock["ERROR_LABEL_1"]
-                    error_description = self.data_lock["ERROR_LABEL_2"]
+                    error_heading = _("Careful")
+                    error_description = _("The passwords don't match! Try again!")
 
                 # if enabled, turning off
                 else:
@@ -293,10 +292,10 @@ class SetPassword(Template):
             message1,
             message2,
             {
-                "TRY AGAIN": {
+                _("Try again").upper(): {
                     "return_value": -1
                 },
-                "GO BACK": {
+                _("Go back").upper(): {
                     "return_value": 0,
                     "color": "red"
                 }
@@ -329,9 +328,9 @@ class SetPassword(Template):
             self.parental_enabled = get_parental_enabled()
 
         if success:
-            heading = "Success"
+            heading = _("Success")
         else:
-            heading = "Error"
+            heading = _("Error")
 
         kdialog = KanoDialog(heading, msg, parent_window=self.win)
         kdialog.run()

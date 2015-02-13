@@ -10,6 +10,7 @@
 
 import os
 import sys
+import gettext
 from gi.repository import Gtk, GObject
 GObject.threads_init()
 
@@ -17,6 +18,9 @@ if __name__ == '__main__' and __package__ is None:
     dir_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
     if dir_path != '/usr':
         sys.path.insert(1, dir_path)
+
+locale_path = os.path.join(dir_path, 'locale') if dir_path != '/usr' else None
+gettext.install('kano-settings', locale_path, unicode=1)
 
 import kano_settings.common as common
 from kano_settings.home_screen import HomeScreen
@@ -54,9 +58,9 @@ class MainWindow(ApplicationWindow):
         KanoComboBox.apply_styling_to_screen()
         ScrolledWindow.apply_styling_to_screen(wide=True)
         # Set window
-        ApplicationWindow.__init__(self, "Settings", self.width, self.height)
+        ApplicationWindow.__init__(self, _("Settings"), self.width, self.height)
         self.set_decorated(True)
-        self.top_bar = TopBar("Settings")
+        self.top_bar = TopBar(_("Settings"))
         self.top_bar.set_close_callback(self.close_window)
         self.prev_handler = None
         self.set_titlebar(self.top_bar)
@@ -86,14 +90,14 @@ class MainWindow(ApplicationWindow):
     def close_window(self, button, event):
         if common.need_reboot:
             kdialog = KanoDialog(
-                "Reboot?",
-                "Your Kano needs to reboot for changes to apply",
+                _("Reboot?"),
+                _("Your Kano needs to reboot for changes to apply"),
                 {
-                    "REBOOT NOW": {
+                    _("Reboot now").upper(): {
                         "return_value": 1,
                         "color": "orange"
                     },
-                    "LATER": {
+                    _("Later").upper(): {
                         "return_value": 0,
                         "color": "grey"
                     }

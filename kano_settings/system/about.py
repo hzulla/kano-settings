@@ -11,26 +11,25 @@ import subprocess
 
 
 def get_current_version():
-    output = subprocess.check_output(["cat", "/etc/kanux_version"])
-    version_number = output.split("-")[-1].strip()
-    return "Kano OS v." + version_number
+    version_number = "?"
+    with open('/etc/kanux_version', 'r') as f:
+        output = f.read().strip()
+        version_number = output.split("-")[-1]
+    return _("Kano OS v.{version}").format(version = version_number)
 
 
 def get_space_available():
-    output = subprocess.check_output("df -h | grep rootfs", shell=True)
+    output = subprocess.check_output("LC_ALL=C df -h | grep rootfs", shell=True)
     items = output.strip().split(" ")
     items = filter(None, items)
     total_space = items[1]
     space_used = items[2]
-    return "Disk space used: " + space_used + "B / " + total_space + "B"
+    return _("Disk space used: {used}B / {total}B").format(used = space_used, total = total_space)
 
 
 def get_temperature():
-    degree_sign = u'\N{DEGREE SIGN}'
-    output = subprocess.check_output("cputemp0=`cat /sys/class/thermal/thermal_zone0/temp`; \
-                                     cputemp1=$(($cputemp0/1000)); \
-                                     cputemp2=$(($cputemp0/100)); \
-                                     cputemp=$(($cputemp2%$cputemp1)); \
-                                     echo $cputemp1\".\"$cputemp", shell=True)
-    output = output.strip()
-    return "Temperature: " + output + degree_sign + "C"
+    temperature = 0
+    with open('/sys/class/thermal/thermal_zone0/temp') as f:
+        output = f.read().strip()
+        temperature = int(output) / 1000.0
+    return _(u"Temperature: {celsius:.1f}\N{DEGREE SIGN}C").format(celsius = temperature)
