@@ -123,14 +123,18 @@ class SetAccount(Gtk.Box):
             kdialog = kano_dialog.KanoDialog(
                 dialog_title,
                 dialog_description,
-                {
-                    _("OK").upper(): {
-                        "return_value": -1
-                    },
-                    _("Cancel").upper(): {
+                [
+                    {
+                        'label': _("Cancel").upper(),
+                        'color': 'red',
                         "return_value": 0
+                    },
+                    {
+                        'label': _("OK").upper(),
+                        'color': 'green',
+                        "return_value": -1
                     }
-                },
+                ],
                 parent_window=self.win
             )
             response = kdialog.run()
@@ -142,15 +146,18 @@ class SetAccount(Gtk.Box):
                 kdialog = kano_dialog.KanoDialog(
                     _("To finish removing this account, you need to reboot"),
                     _("Do you want to reboot?"),
-                    {
-                        _("Yes").upper(): {
-                            "return_value": -1
+                    [
+                        {
+                            'label': _("No").upper(),
+                            'color': 'red',
+                            "return_value": 0
                         },
-                        _("No").upper(): {
-                            "return_value": 0,
-                            "color": "red"
+                        {
+                            'label': _("Yes").upper(),
+                            'color': 'green',
+                            "return_value": -1
                         }
-                    },
+                    ],
                     parent_window=self.win
                 )
                 response = kdialog.run()
@@ -305,18 +312,20 @@ class SetPassword(Template):
 
 def create_error_dialog(message1=_("Could not change password"), message2="", win=None):
     kdialog = kano_dialog.KanoDialog(
-        message1, message2,
-        {
-            _("Try again").upper():
+        message1,
+        message2,
+        [
             {
-                "return_value": -1
+                'label': _("Go back").upper(),
+                'color': 'red',
+                'return_value': 0
             },
-            _("Go back").upper():
             {
-                "return_value": 0,
-                "color": "red"
+                'label': _("Try again").upper(),
+                'color': 'green',
+                'return_value': -1
             }
-        },
+        ],
         parent_window=win
     )
 

@@ -92,16 +92,18 @@ class MainWindow(ApplicationWindow):
             kdialog = KanoDialog(
                 _("Reboot?"),
                 _("Your Kano needs to reboot for changes to apply"),
-                {
-                    _("Reboot now").upper(): {
-                        "return_value": 1,
-                        "color": "orange"
+                [
+                    {
+                        'label': _("Reboot now").upper(),
+                        'color': 'orange',
+                        'return_value': 1
                     },
-                    _("Later").upper(): {
-                        "return_value": 0,
-                        "color": "grey"
+                    {
+                        'label': _("Later").upper(),
+                        'color': 'grey',
+                        'return_value': 0
                     }
-                },
+                ],
                 parent_window=self.get_toplevel()
             )
 

@@ -291,15 +291,18 @@ class SetPassword(Template):
         kdialog = KanoDialog(
             message1,
             message2,
-            {
-                _("Try again").upper(): {
-                    "return_value": -1
+            [
+                {
+                    'label': _("Go back").upper(),
+                    'color': 'red',
+                    'return_value': 0
                 },
-                _("Go back").upper(): {
-                    "return_value": 0,
-                    "color": "red"
+                {
+                    'label': _("Try again").upper(),
+                    'color': 'green',
+                    'return_value': -1
                 }
-            },
+            ],
             parent_window=self.win
         )
 
