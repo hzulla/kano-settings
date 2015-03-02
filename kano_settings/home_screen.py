@@ -25,12 +25,13 @@ from kano.utils import get_user_unsudoed
 
 class HomeScreen(Gtk.Box):
 
-    # deferred i18n translation
-    def _(m): return m
-    names = [_("Keyboard"), _("Mouse"), _("Audio"), _("Display"),
+    names = ["Keyboard", "Mouse", "Audio", "Display",
+             "Wifi", "Overclocking", "Account", "Wallpaper",
+             "Font", "Advanced", "About", "Notifications"]
+
+    names_i18n = [_("Keyboard"), _("Mouse"), _("Audio"), _("Display"),
              _("Wifi"), _("Overclocking"), _("Account"), _("Wallpaper"),
              _("Font"), _("Advanced"), _("About"), _("Notifications")]
-    del _
     
     custom_info = ["Keyboard-country-human", "Mouse", "Audio", None,
                    None, "Overclocking", None, "Wallpaper",
@@ -64,7 +65,7 @@ class HomeScreen(Gtk.Box):
 
         # names at top of file
         for x in range(len(self.names)):
-            self.item = Menu_button(self.names[x], _(self.names[x]), '')
+            self.item = Menu_button(self.names[x], self.names_i18n[x], '')
             self.labels.append(self.item.description)
             # Update the state of the button, so we know which button has been clicked on.
             self.item.button.state = x
