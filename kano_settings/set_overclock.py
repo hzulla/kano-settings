@@ -10,7 +10,6 @@ from gi.repository import Gdk
 from kano_settings.templates import RadioButtonTemplate
 import kano_settings.common as common
 from kano_settings.boot_config import get_config_value
-from kano_settings.data import get_data
 from kano_settings.system.overclock import change_overclock_value
 
 # 0 = None
@@ -26,30 +25,21 @@ class SetOverclock(RadioButtonTemplate):
     initial_button = 0
     boot_config_file = "/boot/config.txt"
 
-    data = get_data("SET_OVERCLOCK")
-
     def __init__(self, win):
+        RadioButtonTemplate.__init__(
+            self,
+            "Overclock your processor",
+            "Make your computer's brain think faster, but run hotter.",
+            "APPLY CHANGES",
+            [
+                ["None",    "700MHZ ARM, 250MHZ CORE, 400MHZ SDRAM, 0 OVERVOLT"],
+                ["Modest",  "800MHZ ARM, 250MHZ CORE, 400MHZ SDRAM, 0 OVERVOLT"],
+                ["Medium",  "900MHZ ARM, 250MHZ CORE, 450MHZ SDRAM, 2 OVERVOLT"],
+                ["High",    "950MHZ ARM, 250MHZ CORE, 450MHZ SDRAM, 6 OVERVOLT"],
+                ["Turbo",  "1000MHZ ARM, 500MHZ CORE, 600MHZ SDRAM, 6 OVERVOLT"]
+            ]
+        )
 
-        title = self.data["LABEL_1"]
-        description = self.data["LABEL_2"]
-        kano_label = self.data["KANO_BUTTON"]
-        option1 = self.data["OPTION_1"]
-        desc1 = self.data["DESCRIPTION_1"]
-        option2 = self.data["OPTION_2"]
-        desc2 = self.data["DESCRIPTION_2"]
-        option3 = self.data["OPTION_3"]
-        desc3 = self.data["DESCRIPTION_3"]
-        option4 = self.data["OPTION_4"]
-        desc4 = self.data["DESCRIPTION_4"]
-        option5 = self.data["OPTION_5"]
-        desc5 = self.data["DESCRIPTION_5"]
-
-        RadioButtonTemplate.__init__(self, title, description, kano_label,
-                                     [[option1, desc1],
-                                      [option2, desc2],
-                                      [option3, desc3],
-                                      [option4, desc4],
-                                      [option5, desc5]])
         self.win = win
         self.win.set_main_widget(self)
 
