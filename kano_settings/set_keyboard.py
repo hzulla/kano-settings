@@ -35,7 +35,7 @@ class SetKanoKeyboard(Template):
         Template.__init__(
             self,
             "Keyboard",
-            "Where do you live? So I can set your keyboard.",
+            "Kano keyboard detected",
             "APPLY CHANGES"
         )
 
