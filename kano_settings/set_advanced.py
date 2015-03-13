@@ -232,38 +232,36 @@ class SetPassword(Template):
             self.entry2.set_sensitive(False)
             button.set_sensitive(False)
 
-        if not hasattr(event, 'keyval') or event.keyval == Gdk.KEY_Return:
+        password = None
 
-            password = None
+        # if disabled, turning on
+        if not self.parental_enabled:
+            password = self.entry1.get_text()
+            password2 = self.entry2.get_text()
+            passed_test = (password == password2)
 
-            # if disabled, turning on
-            if not self.parental_enabled:
-                password = self.entry1.get_text()
-                password2 = self.entry2.get_text()
-                passed_test = (password == password2)
+        # if enabled, turning off
+        else:
+            password = self.entry.get_text()
+            passed_test = True
 
-            # if enabled, turning off
-            else:
-                password = self.entry.get_text()
-                passed_test = True
-
-            # if test passed, update parental configuration
-            if passed_test:
-                self.update_config(password)
-            # else, display try again dialog
-            else:
-                do_try_again = self.create_dialog(
-                    "Careful",
-                    "The passwords don't match! Try again"
-                )
-                if do_try_again:
-                    if not self.parental_enabled:
-                        self.entry1.set_text("")
-                        self.entry2.set_text("")
-                    else:
-                        self.entry.set_text("")
+        # if test passed, update parental configuration
+        if passed_test:
+            self.update_config(password)
+        # else, display try again dialog
+        else:
+            do_try_again = self.create_dialog(
+                "Careful",
+                "The passwords don't match! Try again"
+            )
+            if do_try_again:
+                if not self.parental_enabled:
+                    self.entry1.set_text("")
+                    self.entry2.set_text("")
                 else:
-                    self.go_to_advanced()
+                    self.entry.set_text("")
+            else:
+                self.go_to_advanced()
 
         # Restore the UI controls (re-enable input focus)
         if is_locked:
