@@ -25,12 +25,11 @@ class NoInternet(Gtk.Box):
         image = Gtk.Image.new_from_file(media + "/Graphics/no-internet-screen.png")
         # Orange button
         later_button = OrangeButton("Later")
-        later_button.connect("button_release_event", self.win.close_window)
+        later_button.connect('clicked', self.win.close_window)
         # Green button
         self.kano_button = KanoButton("CONNECT NOW")
         self.kano_button.pack_and_align()
-        self.kano_button.connect("button-release-event", self.go_to_wifi)
-        self.kano_button.connect("key-release-event", self.go_to_wifi)
+        self.kano_button.connect('clicked', self.go_to_wifi)
         # Text label
         text_align = self.create_text_align()
         # Place elements
@@ -43,7 +42,7 @@ class NoInternet(Gtk.Box):
         # Refresh window
         self.win.show_all()
 
-    def go_to_wifi(self, widget=None, event=None):
+    def go_to_wifi(self, button):
         self.win.clear_win()
         SetWifi(self.win)
 

@@ -40,8 +40,7 @@ class SetWallpaper(ScrolledWindowTemplate):
         self.win = win
         self.win.set_main_widget(self)
 
-        self.kano_button.connect("button-release-event", self.apply_changes)
-        self.kano_button.connect("key-release-event", self.apply_changes)
+        self.kano_button.connect('clicked', self.apply_changes)
         self.win.top_bar.enable_prev()
         self.win.change_prev_callback(self.win.go_to_home)
 
@@ -118,19 +117,20 @@ class SetWallpaper(ScrolledWindowTemplate):
         backgroundbox.get_style_context().add_class('wallpaper_box')
         backgroundbox.add(container)
         image.set_padding(3, 3)
-        backgroundbox.connect('button_press_event', self.select_wallpaper, name)
+        backgroundbox.connect('clicked', self.select_wallpaper, name)
         self.buttons[name] = backgroundbox
         self.buttons_list.append(backgroundbox)
 
     # Add class to wallpaper picture which displays border even when mouse is moved
-    def select_wallpaper(self, widget=None, event=None, image_name=""):
-        for name, button in self.buttons.iteritems():
-            style = button.get_style_context()
-            style.remove_class("wallpaper_box_active")
-            style.add_class("wallpaper_box")
-        style = self.buttons[image_name].get_style_context()
-        style.remove_class("wallpaper_box")
-        style.add_class("wallpaper_box_active")
+    def select_wallpaper(self, button=None, image_name=""):
+        for b in self.buttons_list:
+            style = b.get_style_context()
+            if button == b:
+                style.remove_class('wallpaper_box')
+                style.add_class('wallpaper_box_active')
+            else:
+                style.remove_class('wallpaper_box_active')
+                style.add_class('wallpaper_box')
         self.set_selected(image_name)
 
     # Get the current selected wallpaper
@@ -193,15 +193,12 @@ class SetWallpaper(ScrolledWindowTemplate):
                         'unlocked': True
                     }
 
-    def apply_changes(self, button, event):
-        # If enter key is pressed or mouse button is clicked
-        if not hasattr(event, 'keyval') or event.keyval == Gdk.KEY_Return:
-
-            image_name = self.get_selected()
-            path = self.get_path(image_name)
-            change_wallpaper(path, image_name)
-            self.update_config()
-            self.win.go_to_home()
+    def apply_changes(self, button):
+        image_name = self.get_selected()
+        path = self.get_path(image_name)
+        change_wallpaper(path, image_name)
+        self.update_config()
+        self.win.go_to_home()
 
     def get_path(self, name):
         return self.wallpapers[name]['path']

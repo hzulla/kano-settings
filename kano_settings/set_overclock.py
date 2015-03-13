@@ -53,53 +53,49 @@ class SetOverclock(RadioButtonTemplate):
         self.win.top_bar.enable_prev()
         self.win.change_prev_callback(self.win.go_to_home)
 
-        self.kano_button.connect("button-release-event", self.set_overclock)
-        self.kano_button.connect("key-release-event", self.set_overclock)
+        self.kano_button.connect('clicked', self.set_overclock)
 
         self.win.show_all()
 
-    def set_overclock(self, widget, event):
-        # If enter key is pressed or mouse button is clicked
-        if not hasattr(event, 'keyval') or event.keyval == Gdk.KEY_Return:
+    def set_overclock(self, button):
+        # Mode has no changed
+        if self.initial_button == self.selected_button:
+            self.win.go_to_home()
+            return
 
-            # Mode has no changed
-            if self.initial_button == self.selected_button:
-                self.win.go_to_home()
-                return
+        config = CLOCK_MODES[self.is_pi2]['modes'][self.selected_button]
+        change_overclock = True
 
-            config = CLOCK_MODES[self.is_pi2]['modes'][self.selected_button]
-            change_overclock = True
+        if is_dangerous_overclock_value(config, self.is_pi2):
 
-            if is_dangerous_overclock_value(config, self.is_pi2):
-
-                kdialog = KanoDialog(
-                    title_text="Warning",
-                    description_text=(
-                        "For a small percentage of users, this setting makes "
-                        "the Pi behave unpredictably. Do you want to "
-                        "continue?"
-                    ),
-                    button_dict={
-                        "YES": {
-                            "color": "green",
-                            "return_value": True
-                        },
-                        "NO": {
-                            "color": "red",
-                            "return_value": False
-                        }
+            kdialog = KanoDialog(
+                title_text="Warning",
+                description_text=(
+                    "For a small percentage of users, this setting makes "
+                    "the Pi behave unpredictably. Do you want to "
+                    "continue?"
+                ),
+                button_dict={
+                    "YES": {
+                        "color": "green",
+                        "return_value": True
                     },
-                    parent_window=self.win
-                )
-                change_overclock = kdialog.run()
+                    "NO": {
+                        "color": "red",
+                        "return_value": False
+                    }
+                },
+                parent_window=self.win
+            )
+            change_overclock = kdialog.run()
 
-            if change_overclock:
-                change_overclock_value(config, self.is_pi2)
+        if change_overclock:
+            change_overclock_value(config, self.is_pi2)
 
-                # Tell user to reboot to see changes
-                common.need_reboot = True
+            # Tell user to reboot to see changes
+            common.need_reboot = True
 
-                self.win.go_to_home()
+            self.win.go_to_home()
 
     def current_setting(self):
         # The initial button defaults to zero (above) if the user has

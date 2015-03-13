@@ -71,8 +71,7 @@ class ParentalConfig(Template):
         parental_level_grid.attach(self._parental_labels[0][1], 1, 7, 1, 1)
 
         blacklist_button = OrangeButton("Configure allowed/blocked")
-        blacklist_button.connect("button-press-event",
-                                 self.go_to_blacklist)
+        blacklist_button.connect('clicked', self.go_to_blacklist)
 
         self.box.set_spacing(20)
         self.box.pack_start(parental_level_grid, False, False, 0)
@@ -85,11 +84,10 @@ class ParentalConfig(Template):
         self.win.change_prev_callback(self.win.go_to_home)
         self.win.top_bar.enable_prev()
 
-        self.kano_button.connect('button-release-event', self.apply_changes)
-        self.kano_button.connect('key-release-event', self.apply_changes)
+        self.kano_button.connect('clicked', self.apply_changes)
         self.win.show_all()
 
-    def apply_changes(self, button, event):
+    def apply_changes(self, button):
         pw_dialog = ParentalPasswordDialog(self.win)
         if not pw_dialog.verify():
             return
@@ -101,7 +99,7 @@ class ParentalConfig(Template):
 
         self.win.go_to_home()
 
-    def go_to_blacklist(self, button, event):
+    def go_to_blacklist(self, button):
         self.win.clear_win()
         AllowedSites(self.win)
 
@@ -171,13 +169,12 @@ class AllowedSites(Template):
         self.win.top_bar.enable_prev()
         self.win.change_prev_callback(self.go_to_parental_config)
 
-        self.kano_button.connect('button-release-event', self.apply_changes)
-        self.kano_button.connect('key-release-event', self.apply_changes)
+        self.kano_button.connect('clicked', self.apply_changes)
         self.win.show_all()
 
         self.win.show_all()
 
-    def apply_changes(self, button, event):
+    def apply_changes(self, button):
         pw_dialog = ParentalPasswordDialog()
         if not pw_dialog.verify():
             return

@@ -49,9 +49,9 @@ class SetKanoKeyboard(Template):
 
         # Link to advance options
         self.to_advance_button = OrangeButton("Layout options")
-        self.to_advance_button.connect("button_press_event", self.to_advance)
+        self.to_advance_button.connect('clicked', self.to_advance)
 
-        self.kano_button.connect("button-release-event", self.win.go_to_home)
+        self.kano_button.connect('clicked', self.win.go_to_home)
         self.win.change_prev_callback(self.win.go_to_home)
 
         self.box.pack_start(img, False, False, 0)
@@ -60,8 +60,7 @@ class SetKanoKeyboard(Template):
         # Refresh window
         self.win.show_all()
 
-    def to_advance(self, widget, event):
-
+    def to_advance(self, button):
         self.win.clear_win()
         SetKeyboard(self.win)
 
@@ -100,7 +99,7 @@ class SetKeyboard(Template):
         else:
             self.win.change_prev_callback(self.win.go_to_home)
 
-        self.kano_button.connect("button-release-event", self.apply_changes)
+        self.kano_button.connect('clicked', self.apply_changes)
 
         # Make sure continue button is enabled
         self.kano_button.set_sensitive(False)
@@ -172,35 +171,32 @@ class SetKeyboard(Template):
         self.win.show_all()
         self.variants_combo.hide()
 
-    def apply_changes(self, button, event):
+    def apply_changes(self, button):
 
-        # If enter key is pressed or mouse button is clicked
-        if not hasattr(event, 'keyval') or event.keyval == 65293:
+        def lengthy_process():
+            if keyboard_config.is_changed(self.selected_country, self.selected_variant):
+                # Apply the keyboard changes
+                keyboard_config.set_keyboard(self.selected_country, self.selected_variant)
 
-            def lengthy_process():
-                if keyboard_config.is_changed(self.selected_country, self.selected_variant):
-                    # Apply the keyboard changes
-                    keyboard_config.set_keyboard(self.selected_country, self.selected_variant)
+            # The callback runs a GUI task, so wrap it!
+            GObject.idle_add(self.work_finished_cb)
 
-                # The callback runs a GUI task, so wrap it!
-                GObject.idle_add(self.work_finished_cb)
+        # Apply changes
+        thread = threading.Thread(target=lengthy_process)
+        thread.start()
 
-            # Apply changes
-            thread = threading.Thread(target=lengthy_process)
-            thread.start()
+        # Save the changes in the config
+        self.update_config()
 
-            # Save the changes in the config
-            self.update_config()
+        kano_keyboard = detect_kano_keyboard()
 
-            kano_keyboard = detect_kano_keyboard()
+        # Go back a screen
+        if kano_keyboard:
+            self.go_to_kano_screen()
+        else:
+            self.win.go_to_home()
 
-            # Go back a screen
-            if kano_keyboard:
-                self.go_to_kano_screen()
-            else:
-                self.win.go_to_home()
-
-            self.win.show_all()
+        self.win.show_all()
 
     def read_config(self):
         self.selected_continent_index = get_setting("Keyboard-continent-index")

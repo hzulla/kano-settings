@@ -45,18 +45,15 @@ class SetAccount(Gtk.Box):
 
         self.pass_button = KanoButton("CHANGE PASSWORD")
         self.pass_button.pack_and_align()
-        self.pass_button.connect("button-release-event", self.go_to_password_screen)
-        self.pass_button.connect("key-release-event", self.go_to_password_screen)
+        self.pass_button.connect('clicked', self.go_to_password_screen)
 
         self.add_button = KanoButton("ADD ACCOUNT")
         self.add_button.set_size_request(200, 44)
-        self.add_button.connect("button-release-event", self.add_account)
-        self.add_button.connect("key-release-event", self.add_account)
+        self.add_button.connect('clicked', self.add_account)
 
         self.remove_button = KanoButton("REMOVE ACCOUNT", color="red")
         self.remove_button.set_size_request(200, 44)
-        self.remove_button.connect("button-release-event", self.remove_account_dialog)
-        self.remove_button.connect("key-release-event", self.remove_account_dialog)
+        self.remove_button.connect('clicked', self.remove_account_dialog)
 
         button_container = Gtk.Box()
         button_container.pack_start(self.add_button, False, False, 10)
@@ -83,75 +80,68 @@ class SetAccount(Gtk.Box):
 
         self.win.show_all()
 
-    def go_to_password_screen(self, widget, event):
-
-        if not hasattr(event, 'keyval') or event.keyval == Gdk.KEY_Return:
-            self.win.clear_win()
-            SetPassword(self.win)
+    def go_to_password_screen(self, button):
+        self.win.clear_win()
+        SetPassword(self.win)
 
     # Gets executed when ADD button is clicked
-    def add_account(self, widget=None, event=None):
-
-        if not hasattr(event, 'keyval') or event.keyval == Gdk.KEY_Return:
-            # Bring in message dialog box
-            kdialog = kano_dialog.KanoDialog(
-                "Reboot the system",
-                "A new account will be created next time you reboot.",
-                parent_window=self.win
-            )
-            kdialog.run()
-            #
-            self.disable_buttons()
-            # add new user command
-            add_user()
-            # Tell user to reboot to see changes
-            common.need_reboot = True
+    def add_account(self, button):
+        # Bring in message dialog box
+        kdialog = kano_dialog.KanoDialog(
+            "Reboot the system",
+            "A new account will be created next time you reboot.",
+            parent_window=self.win
+        )
+        kdialog.run()
+        #
+        self.disable_buttons()
+        # add new user command
+        add_user()
+        # Tell user to reboot to see changes
+        common.need_reboot = True
 
     # Gets executed when REMOVE button is clicked
-    def remove_account_dialog(self, widget=None, event=None):
+    def remove_account_dialog(self, button):
+        # Bring in message dialog box
+        kdialog = kano_dialog.KanoDialog(
+            "Are you sure you want to delete the current user?",
+            "You will lose all the data on this account!",
+            {
+                "OK": {
+                    "return_value": -1
+                },
+                "CANCEL": {
+                    "return_value": 0
+                }
+            },
+            parent_window=self.win
+        )
+        response = kdialog.run()
+        if response == -1:
+            self.disable_buttons()
+            # Delete current user
+            delete_user()
 
-        if not hasattr(event, 'keyval') or event.keyval == Gdk.KEY_Return:
-            # Bring in message dialog box
             kdialog = kano_dialog.KanoDialog(
-                "Are you sure you want to delete the current user?",
-                "You will lose all the data on this account!",
+                "To finish removing this account, you need to reboot",
+                "Do you want to reboot?",
                 {
-                    "OK": {
+                    "YES": {
                         "return_value": -1
                     },
-                    "CANCEL": {
-                        "return_value": 0
+                    "NO": {
+                        "return_value": 0,
+                        "color": "red"
                     }
                 },
                 parent_window=self.win
             )
             response = kdialog.run()
             if response == -1:
-                self.disable_buttons()
-                # Delete current user
-                delete_user()
-
-                kdialog = kano_dialog.KanoDialog(
-                    "To finish removing this account, you need to reboot",
-                    "Do you want to reboot?",
-                    {
-                        "YES": {
-                            "return_value": -1
-                        },
-                        "NO": {
-                            "return_value": 0,
-                            "color": "red"
-                        }
-                    },
-                    parent_window=self.win
-                )
-                response = kdialog.run()
-                if response == -1:
-                    os.system("sudo reboot")
+                os.system("sudo reboot")
 
     # Disables both buttons and makes the temp 'flag' folder
     def disable_buttons(self):
-
         self.add_button.set_sensitive(False)
         self.remove_button.set_sensitive(False)
         self.added_or_removed_account = True
@@ -204,56 +194,52 @@ class SetPassword(Template):
         self.win.change_prev_callback(self.go_to_accounts)
 
         self.kano_button.set_sensitive(False)
-        self.kano_button.connect("button-release-event", self.apply_changes)
-        self.kano_button.connect("key-release-event", self.apply_changes)
+        self.kano_button.connect('clicked', self.apply_changes)
 
         self.win.show_all()
 
-    def apply_changes(self, button, event):
-        # If enter key is pressed or mouse button is clicked
-        if not hasattr(event, 'keyval') or event.keyval == Gdk.KEY_Return:
+    def apply_changes(self, button):
+        # This is a callback called by the main loop, so it's safe to
+        # manipulate GTK objects:
+        watch_cursor = Gdk.Cursor(Gdk.CursorType.WATCH)
+        self.win.get_window().set_cursor(watch_cursor)
+        self.kano_button.start_spinner()
+        self.kano_button.set_sensitive(False)
 
-            # This is a callback called by the main loop, so it's safe to
-            # manipulate GTK objects:
-            watch_cursor = Gdk.Cursor(Gdk.CursorType.WATCH)
-            self.win.get_window().set_cursor(watch_cursor)
-            self.kano_button.start_spinner()
-            self.kano_button.set_sensitive(False)
+        def lengthy_process():
+            old_password = self.entry1.get_text()
+            new_password1 = self.entry2.get_text()
+            new_password2 = self.entry3.get_text()
 
-            def lengthy_process():
-                old_password = self.entry1.get_text()
-                new_password1 = self.entry2.get_text()
-                new_password2 = self.entry3.get_text()
+            success = False
+            password_verified = verify_current_password(old_password)
 
-                success = False
-                password_verified = verify_current_password(old_password)
+            if not password_verified:
+                title = "Could not change password"
+                description = "Your old password is incorrect!"
+            elif new_password1 == new_password2:
+                title, description, success = self.try_change_password(new_password1)
+            else:
+                title = "Could not change password"
+                description = "Your new passwords don't match! Try again."
 
-                if not password_verified:
-                    title = "Could not change password"
-                    description = "Your old password is incorrect!"
-                elif new_password1 == new_password2:
-                    title, description, success = self.try_change_password(new_password1)
+            def done(title, description, success):
+                if success:
+                    response = create_success_dialog(title, description, self.win)
                 else:
-                    title = "Could not change password"
-                    description = "Your new passwords don't match! Try again."
+                    response = create_error_dialog(title, description, self.win)
 
-                def done(title, description, success):
-                    if success:
-                        response = create_success_dialog(title, description, self.win)
-                    else:
-                        response = create_error_dialog(title, description, self.win)
+                self.win.get_window().set_cursor(None)
+                self.kano_button.stop_spinner()
+                self.clear_text()
 
-                    self.win.get_window().set_cursor(None)
-                    self.kano_button.stop_spinner()
-                    self.clear_text()
+                if response == 0:
+                    self.go_to_accounts()
 
-                    if response == 0:
-                        self.go_to_accounts()
+            GObject.idle_add(done, title, description, success)
 
-                GObject.idle_add(done, title, description, success)
-
-            thread = threading.Thread(target=lengthy_process)
-            thread.start()
+        thread = threading.Thread(target=lengthy_process)
+        thread.start()
 
     # Returns a title, description and whether the process was successful or not
     def try_change_password(self, new_password):

@@ -137,10 +137,10 @@ class EditableList(Gtk.Grid):
         self.edit_list.append_column(column)
 
         self._add_btn = KanoButton('ADD')
-        self._add_btn.connect('button-release-event', self.add)
+        self._add_btn.connect('clicked', self.add)
         self._rm_btn = KanoButton('REMOVE')
         self._set_rm_btn_state()
-        self._rm_btn.connect('button-release-event', self.rm)
+        self._rm_btn.connect('clicked', self.rm)
 
         scroll.add_with_viewport(self.edit_list)
 
@@ -151,7 +151,7 @@ class EditableList(Gtk.Grid):
     def __contains__(self, item):
         return item in [row[0] for row in self.edit_list_store]
 
-    def add(self, button, event):
+    def add(self, button):
         self.edit_list_store.append([''])
 
         self.edit_list.grab_focus()
@@ -161,7 +161,7 @@ class EditableList(Gtk.Grid):
         self.edit_list.set_cursor(row, col, start_editing=True)
         self._set_rm_btn_state()
 
-    def rm(self, button=None, event=None):
+    def rm(self, button=None):
         selection = self.edit_list.get_selection()
         _, selected = selection.get_selected()
 

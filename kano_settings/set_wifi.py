@@ -29,13 +29,13 @@ class SetWifi(Template):
         self.win = win
         self.win.set_main_widget(self)
 
-        self.kano_button.connect("button-release-event", self.win.go_to_home)
+        self.kano_button.connect('clicked', self.win.go_to_home)
 
         internet_img = Gtk.Image()
 
         # Very hacky way to centre the Proxy button - put spaces in the label
         self.proxy_button = OrangeButton("Proxy  ")
-        self.proxy_button.connect("button-release-event", self.go_to_proxy)
+        self.proxy_button.connect('clicked', self.go_to_proxy)
         self.disable_proxy = OrangeButton("Disable proxy")
 
         self.win.change_prev_callback(self.win.go_to_home)
@@ -73,7 +73,7 @@ class SetWifi(Template):
             title = "Get connected"
 
             self.add_connection = KanoButton("WIFI")
-            self.add_connection.connect("button_release_event", self.configure_wifi)
+            self.add_connection.connect('clicked', self.configure_wifi)
             # We removed the ability to use keyboard to click, so we also remove ability
             # to get keyboard focus
             self.add_connection.set_can_focus(False)
@@ -90,7 +90,7 @@ class SetWifi(Template):
             status_box.pack_start(configure_container, False, False, 3)
 
             go_to_portal_button = OrangeButton("Browser Login")
-            go_to_portal_button.connect("button-press-event", launch_chromium)
+            go_to_portal_button.connect('clicked', launch_chromium)
             configure_container.pack_start(go_to_portal_button, False, False, 0)
 
             divider_label = Gtk.Label("|")
@@ -115,7 +115,7 @@ class SetWifi(Template):
             internet_action.set_text(ip)
 
             go_to_portal_button = OrangeButton("Browser Login")
-            go_to_portal_button.connect("button-press-event", launch_chromium)
+            go_to_portal_button.connect('clicked', launch_chromium)
             configure_container.pack_start(go_to_portal_button, False, False, 0)
 
             if network_text == 'Ethernet':
@@ -132,7 +132,7 @@ class SetWifi(Template):
                 configure_container.pack_start(divider_label, False, False, 3)
 
                 configure_button = OrangeButton("Configure")
-                configure_button.connect("button_press_event", self.configure_wifi)
+                configure_button.connect('clicked', self.configure_wifi)
                 configure_container.pack_start(configure_button, False, False, 0)
 
             divider_label = Gtk.Label("|")
@@ -143,21 +143,19 @@ class SetWifi(Template):
         self.title.description.set_text(description)
         self.win.show_all()
 
-    def go_to_proxy(self, widget, event):
+    def go_to_proxy(self, button):
         self.win.clear_win()
         SetProxy(self.win)
 
-    def configure_wifi(self, widget=None, event=None):
-        # If is a mouse click event or key pressed is ENTER
-        if not hasattr(event, 'keyval') or event.keyval == Gdk.KEY_Return:
-            self.kano_button.set_sensitive(True)
-            self.wifi_connection_attempted = True
+    def configure_wifi(self, button):
+        self.kano_button.set_sensitive(True)
+        self.wifi_connection_attempted = True
 
-            # Call WiFi config
-            os.system('rxvt -title \'WiFi Setup\' -e /usr/bin/kano-wifi')
-            # Refresh window after WiFi Setup
-            self.win.clear_win()
-            SetWifi(self.win)
+        # Call WiFi config
+        os.system('rxvt -title \'WiFi Setup\' -e /usr/bin/kano-wifi')
+        # Refresh window after WiFi Setup
+        self.win.clear_win()
+        SetWifi(self.win)
 
 
 class SetProxy(Gtk.Box):
@@ -175,8 +173,7 @@ class SetProxy(Gtk.Box):
 
         grid = Gtk.Grid(column_homogeneous=False, column_spacing=10, row_spacing=10)
 
-        self.kano_button.connect("button-release-event", self.apply_changes)
-        self.kano_button.connect("key-release-event", self.apply_changes)
+        self.kano_button.connect('clicked', self.apply_changes)
         self.win.top_bar.enable_prev()
         self.win.change_prev_callback(self.go_to_wifi)
 
@@ -202,7 +199,7 @@ class SetProxy(Gtk.Box):
 
         self.checkbutton = Gtk.CheckButton("enable proxy")
         self.read_config()
-        self.checkbutton.connect("clicked", self.proxy_status)
+        self.checkbutton.connect('clicked', self.proxy_status)
         self.checkbutton.set_can_focus(False)
 
         bottom_row = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=0)
@@ -240,7 +237,7 @@ class SetProxy(Gtk.Box):
         self.port_entry.set_text("")
         self.password_entry.set_text("")
 
-    def go_to_wifi(self, widget=None, event=None):
+    def go_to_wifi(self, button):
         self.win.clear_win()
         SetWifi(self.win)
 
@@ -265,80 +262,77 @@ class SetProxy(Gtk.Box):
                 self.clear_entries()
         self.checkbutton.set_active(self.enable_proxy)
 
-    def apply_changes(self, button, event):
-        # If enter key is pressed or mouse button is clicked
-        if not hasattr(event, 'keyval') or event.keyval == 65293:
+    def apply_changes(self, button):
+        # This is a callback called by the main loop, so it's safe to
+        # manipulate GTK objects:
+        watch_cursor = Gdk.Cursor(Gdk.CursorType.WATCH)
+        self.win.get_window().set_cursor(watch_cursor)
+        self.kano_button.start_spinner()
+        self.kano_button.set_sensitive(False)
 
-            # This is a callback called by the main loop, so it's safe to
-            # manipulate GTK objects:
-            watch_cursor = Gdk.Cursor(Gdk.CursorType.WATCH)
-            self.win.get_window().set_cursor(watch_cursor)
-            self.kano_button.start_spinner()
-            self.kano_button.set_sensitive(False)
+        def lengthy_process():
 
-            def lengthy_process():
+            if self.enable_proxy:
+                host = self.ip_entry.get_text()
+                port = self.port_entry.get_text()
+                username = self.username_entry.get_text()
+                password = self.password_entry.get_text()
+                set_all_proxies(enable=True, host=host, port=port, username=username, password=password)
+                common.proxy_enabled = True
 
-                if self.enable_proxy:
-                    host = self.ip_entry.get_text()
-                    port = self.port_entry.get_text()
-                    username = self.username_entry.get_text()
-                    password = self.password_entry.get_text()
-                    set_all_proxies(enable=True, host=host, port=port, username=username, password=password)
-                    common.proxy_enabled = True
+                success, text = test_proxy()
+                if not success:
+                    title = "Error with proxy"
+                    description = text
+                    return_value = 1
 
-                    success, text = test_proxy()
-                    if not success:
-                        title = "Error with proxy"
-                        description = text
-                        return_value = 1
-
-                        # disable proxy if we couldn't successfully enable it
-                        set_all_proxies(False)
-                        common.proxy_enabled = False
-                    else:
-                        title = "Successfully enabled proxy"
-                        description = ""
-                        return_value = 0
-
-                else:
+                    # disable proxy if we couldn't successfully enable it
                     set_all_proxies(False)
                     common.proxy_enabled = False
-                    title = "Successfully disabled proxy"
+                else:
+                    title = "Successfully enabled proxy"
                     description = ""
                     return_value = 0
 
-                def done(title, description, return_value):
-                    kdialog = KanoDialog(
-                        title,
-                        description,
+            else:
+                set_all_proxies(False)
+                common.proxy_enabled = False
+                title = "Successfully disabled proxy"
+                description = ""
+                return_value = 0
+
+            def done(title, description, return_value):
+                kdialog = KanoDialog(
+                    title,
+                    description,
+                    {
+                        "OK":
                         {
-                            "OK":
-                            {
-                                "return_value": return_value
-                            }
-                        },
-                        parent_window=self.win
-                    )
-                    response = kdialog.run()
-                    self.win.get_window().set_cursor(None)
-                    self.kano_button.stop_spinner()
+                            "return_value": return_value
+                        }
+                    },
+                    parent_window=self.win
+                )
+                response = kdialog.run()
+                self.win.get_window().set_cursor(None)
+                self.kano_button.stop_spinner()
 
-                    if response == 0:
-                        self.go_to_wifi()
-                    elif response == 1:
-                        self.checkbutton.set_active(False)
-                        self.kano_button.set_sensitive(False)
+                if response == 0:
+                    self.go_to_wifi()
+                elif response == 1:
+                    self.checkbutton.set_active(False)
+                    self.kano_button.set_sensitive(False)
 
-                GObject.idle_add(done, title, description, return_value)
+            GObject.idle_add(done, title, description, return_value)
 
-            thread = threading.Thread(target=lengthy_process)
-            thread.start()
+        thread = threading.Thread(target=lengthy_process)
+        thread.start()
 
     # Validation functions
     # If the "enable proxy" checkbox is checked/uncheckout, this function is activated
     # Disables the text entries if enable proxy is not checked
-    def proxy_status(self, widget):
-        self.enable_proxy = widget.get_active()
+    def proxy_status(self, button):
+        self.enable_proxy = button.get_active()
         if self.enable_proxy:
             self.ip_entry.set_sensitive(True)
             self.port_entry.set_sensitive(True)

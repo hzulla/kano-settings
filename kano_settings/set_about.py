@@ -52,17 +52,17 @@ class SetAbout(Gtk.Box):
 
         terms_and_conditions = OrangeButton("Terms and conditions")
         terms_and_conditions.connect(
-            "button_release_event", self.show_terms_and_conditions
+            'clicked', self.show_terms_and_conditions
         )
 
         credits_button = OrangeButton("Meet the team")
         credits_button.connect(
-            "button_release_event", self.show_credits
+            'clicked', self.show_credits
         )
 
         changelog_button = OrangeButton("Changelog")
         changelog_button.connect(
-            "button_release_event", self.show_changelog
+            'clicked', self.show_changelog
         )
 
         self.kano_button = KanoButton("BACK")
@@ -86,8 +86,7 @@ class SetAbout(Gtk.Box):
         self.pack_start(hbutton_container, False, False, 3)
         self.pack_start(self.kano_button.align, False, False, 10)
 
-        self.kano_button.connect("button-release-event", self.win.go_to_home)
-        self.kano_button.connect("key-release-event", self.win.go_to_home)
+        self.kano_button.connect('clicked', self.win.go_to_home)
 
         # Refresh window
         self.win.show_all()
@@ -104,7 +103,7 @@ class SetAbout(Gtk.Box):
 
         return align
 
-    def show_terms_and_conditions(self, widget, event):
+    def show_terms_and_conditions(self, button):
         '''This is the dialog containing the terms and conditions - same as
         shown before creating an account
         '''
@@ -119,7 +118,7 @@ class SetAbout(Gtk.Box):
                              parent_window=self.win)
         kdialog.run()
 
-    def show_credits(self, widget, event):
+    def show_credits(self, button):
         '''Launch the credits
         '''
 
@@ -129,7 +128,7 @@ class SetAbout(Gtk.Box):
             "/usr/bin/kano-credits'\""
         )
 
-    def show_changelog(self, widget, event):
+    def show_changelog(self, button):
         '''Launch chromium with the link of the relevent changelog
         '''
 

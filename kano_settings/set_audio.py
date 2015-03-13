@@ -31,8 +31,7 @@ class SetAudio(Template):
         self.win.top_bar.enable_prev()
         self.win.change_prev_callback(self.win.go_to_home)
 
-        self.kano_button.connect("button-release-event", self.apply_changes)
-        self.kano_button.connect("key-release-event", self.apply_changes)
+        self.kano_button.connect('clicked', self.apply_changes)
 
         # Analog radio button
         self.analog_button = Gtk.RadioButton.new_with_label_from_widget(None, "Speaker")
@@ -59,22 +58,19 @@ class SetAudio(Template):
 
         self.win.show_all()
 
-    def apply_changes(self, widget, event):
-        # If enter key is pressed or mouse button is clicked
-        if not hasattr(event, 'keyval') or event.keyval == Gdk.KEY_Return:
+    def apply_changes(self, button):
+        if (get_setting('Audio') == 'HDMI' and self.HDMI is True) or \
+           (get_setting('Audio') == 'Analogue' and self.HDMI is False):
 
-            if (get_setting('Audio') == 'HDMI' and self.HDMI is True) or \
-               (get_setting('Audio') == 'Analogue' and self.HDMI is False):
-
-                logger.debug("set_audio / apply_changes: audio settings haven't changed, don't apply new changes")
-                self.win.go_to_home()
-                return
-
-            set_to_HDMI(self.HDMI)
-
-            # Tell user to reboot to see changes
-            common.need_reboot = True
+            logger.debug("set_audio / apply_changes: audio settings haven't changed, don't apply new changes")
             self.win.go_to_home()
+            return
+
+        set_to_HDMI(self.HDMI)
+
+        # Tell user to reboot to see changes
+        common.need_reboot = True
+        self.win.go_to_home()
 
     def current_setting(self):
         if not hdmi_supported:

@@ -85,7 +85,7 @@ class MainWindow(ApplicationWindow):
             self.prev_handler = None
 
     # On closing window, will alert if any of the listed booleans are True
-    def close_window(self, button, event):
+    def close_window(self, button=None, event=None):
         if common.need_reboot:
             kdialog = KanoDialog(
                 "Reboot?",

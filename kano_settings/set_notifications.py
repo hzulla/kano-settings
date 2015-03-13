@@ -38,7 +38,7 @@ class SetNotifications(RadioButtonTemplate):
         self.disable_world_radiobutton = self.get_button(2)
         self.show_configuration()
 
-        self.kano_button.connect("button-release-event", self.apply_changes)
+        self.kano_button.connect('clicked', self.apply_changes)
 
         self.win.show_all()
 
@@ -70,8 +70,7 @@ class SetNotifications(RadioButtonTemplate):
         self.enable_all_radiobutton.set_active(enable_all)
         self.disable_all_radiobutton.set_active(disable_all)
 
-    def apply_changes(self, widget, event):
-        if not hasattr(event, 'keyval') or event.keyval == Gdk.KEY_Return:
-            self.configure_all_notifications()
-            self.configure_world_notifications()
-            self.win.go_to_home()
+    def apply_changes(self, button):
+        self.configure_all_notifications()
+        self.configure_world_notifications()
+        self.win.go_to_home()

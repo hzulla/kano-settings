@@ -44,8 +44,7 @@ class SetDisplay(Template):
         self.win.change_prev_callback(self.win.go_to_home)
 
         self.kano_button.set_sensitive(False)
-        self.kano_button.connect("button-release-event", self.apply_changes)
-        self.kano_button.connect("key-release-event", self.apply_changes)
+        self.kano_button.connect('clicked', self.apply_changes)
 
         horizontal_container = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=40)
         horizontal_container.set_valign(Gtk.Align.CENTER)
@@ -72,29 +71,26 @@ class SetDisplay(Template):
         # Overscan button
         overscan_button = OrangeButton("Overscan")
         horizontal_container.pack_end(overscan_button, False, False, 0)
-        overscan_button.connect("button-release-event", self.go_to_overscan)
+        overscan_button.connect('clicked', self.go_to_overscan)
 
         self.box.pack_start(horizontal_container, False, False, 0)
 
         # Add apply changes button under the main settings content
         self.win.show_all()
 
-    def apply_changes(self, button, event):
+    def apply_changes(self, button):
 
-        # If enter key is pressed or mouse button is clicked
-        if not hasattr(event, 'keyval') or event.keyval == Gdk.KEY_Return:
+        # Check if we have done any change
+        if self.init_item != self.mode_index:
+            # Set HDMI mode
+            # Get mode:group string
+            # Of the form "auto" or "cea:1" or "dmt:1" etc.
+            parse_mode = self.mode.split(" ")[0]
+            self.set_hdmi_mode_from_str(parse_mode)
 
-            # Check if we have done any change
-            if self.init_item != self.mode_index:
-                # Set HDMI mode
-                # Get mode:group string
-                # Of the form "auto" or "cea:1" or "dmt:1" etc.
-                parse_mode = self.mode.split(" ")[0]
-                self.set_hdmi_mode_from_str(parse_mode)
+            common.need_reboot = True
 
-                common.need_reboot = True
-
-            self.win.go_to_home()
+        self.win.go_to_home()
 
     def on_mode_changed(self, combo):
 
@@ -114,7 +110,7 @@ class SetDisplay(Template):
         set_hdmi_mode(group, number)
         set_config_comment('kano_screen_used', self.model)
 
-    def go_to_overscan(self, widget, event):
+    def go_to_overscan(self, button):
         self.win.clear_win()
         # Check if overscan values are all the same
         overscan_values = get_overscan_status()
@@ -131,7 +127,7 @@ class OverscanTemplate(Gtk.Box):
         Gtk.Box.__init__(self, orientation=Gtk.Orientation.VERTICAL)
 
         self.kano_button = KanoButton("APPLY CHANGES")
-        self.kano_button.connect("button-release-event", self.apply_changes)
+        self.kano_button.connect('clicked', self.apply_changes)
         self.kano_button.pack_and_align()
 
         self.heading = Heading(title, description)
@@ -158,9 +154,9 @@ class OverscanTemplate(Gtk.Box):
         self.reset_button = OrangeButton()
         reset_image = Gtk.Image().new_from_file(common.media + "/Icons/reset.png")
         self.reset_button.set_image(reset_image)
-        self.reset_button.connect("button_press_event", self.reset)
+        self.reset_button.connect('clicked', self.reset)
 
-    def apply_changes(self, button, event):
+    def apply_changes(self, button):
         # Apply changes
         write_overscan_values(self.overscan_values)
         self.original_overscan = self.overscan_values
@@ -187,7 +183,7 @@ class OverscanTemplate(Gtk.Box):
         self.win.clear_win()
         SetDisplay(self.win)
 
-    def reset(self, widget=None, event=None):
+    def reset(self, button=None):
         pass
 
 
@@ -227,7 +223,7 @@ class SetSimpleOverscan(OverscanTemplate):
 
         # Advance button
         self.advanced_button = OrangeButton()
-        self.advanced_button.connect("button_press_event", self.go_to_advanced)
+        self.advanced_button.connect('clicked', self.go_to_advanced)
         self.advanced_button.set_label("Advanced")
 
         button_box = Gtk.ButtonBox()
@@ -242,14 +238,13 @@ class SetSimpleOverscan(OverscanTemplate):
 
         self.win.show_all()
 
-    def reset(self, widget=None, event=None):
+    def reset(self, button=None):
         # Restore overscan if any
         if self.original_overscan != self.overscan_values:
             set_overscan_status(self.original_overscan)
             self.t_scale.set_value(self.original_overscan['top'])
 
-    def go_to_advanced(self, event=None, arg=None):
-
+    def go_to_advanced(self, button):
         # Remove key press handler from screen
         self.win.disconnect(self.key_press_handler)
         self.win.clear_win()
