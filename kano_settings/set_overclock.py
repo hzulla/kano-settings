@@ -64,7 +64,7 @@ class SetOverclock(RadioButtonTemplate):
             return
 
         config = CLOCK_MODES[self.is_pi2]['modes'][self.selected_button]
-        change_overclock = True
+        do_overclock = True
 
         if is_dangerous_overclock_value(config, self.is_pi2):
 
@@ -75,26 +75,26 @@ class SetOverclock(RadioButtonTemplate):
                     "the Pi behave unpredictably. Do you want to "
                     "continue?"
                 ),
-                button_dict={
-                    "YES": {
-                        "color": "green",
-                        "return_value": True
+                button_dict=[
+                    {
+                        'label': "NO",
+                        'color': 'red',
+                        'return_value': False
                     },
-                    "NO": {
-                        "color": "red",
-                        "return_value": False
+                    {
+                        'label': "YES",
+                        'color': 'green',
+                        'return_value': True
                     }
-                },
+                ],
                 parent_window=self.win
             )
-            change_overclock = kdialog.run()
+            do_overclock = kdialog.run()
 
-        if change_overclock:
+        if do_overclock:
             change_overclock_value(config, self.is_pi2)
-
             # Tell user to reboot to see changes
             common.need_reboot = True
-
             self.win.go_to_home()
 
     def current_setting(self):
