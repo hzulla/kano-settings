@@ -94,9 +94,9 @@ class ImageTable(Gtk.Table):
             style.remove_class("wallpaper_box")
             style.add_class("wallpaper_box_active")
 
-    def select_image_cb(self, widget, event, image_name):
-        '''This is connected to the button-release-event when you click on a
-        button in the table.
+    def select_image_cb(self, button, image_name):
+        '''This is connected to the clicked signal when you click on a button
+        in the table.
         If the image is unlocked, add the css selected class, select the image
         and emit a signal that the parent window can use
         '''
@@ -132,7 +132,7 @@ class ImageTable(Gtk.Table):
         button.get_style_context().add_class('wallpaper_box')
         button.add(container)
         image.set_padding(3, 3)
-        button.connect('button-release-event', self.select_image_cb, name)
+        button.connect('clicked', self.select_image_cb, name)
         return button
 
     def set_selected(self, image_name):

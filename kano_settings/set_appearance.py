@@ -56,40 +56,34 @@ class SetResetDesktop(Gtk.Box):
         self.win = win
 
         reset_button = KanoButton(text='RESET YOUR DESKTOP', color='orange')
-        reset_button.connect('button-release-event', self.reset_button_cb)
-        reset_button.connect('key-release-event', self.reset_button_cb)
+        reset_button.connect('clicked', self.reset_button_cb)
         reset_button.pack_and_align()
         reset_button.align.set(0.5, 0.5, 0, 0)
 
         self.pack_start(reset_button.align, True, True, 0)
 
-    def reset_button_cb(self, widget, event):
+    def reset_button_cb(self, button):
+        kdialog = KanoDialog(
+            title_text='This will reset all of your desktop changes',
+            description_text='Do you want to continue?',
+            button_dict=[
+                {
+                    'label': 'NO',
+                    'color': 'red',
+                    'return_value': False
+                },
+                {
+                    'label': 'YES',
+                    'color': 'green',
+                    'return_value': True
+                }
+            ],
+            parent_window=self.win
+        )
 
-        # If enter key is pressed or mouse button is clicked
-        if not hasattr(event, 'keyval') or event.keyval == Gdk.KEY_Return:
-
-            kdialog = KanoDialog(
-                title_text='This will reset all of your desktop changes',
-                description_text='Do you want to continue?',
-                button_dict=[
-                    {
-                        'label': 'YES',
-                        'color': 'green',
-                        'return_value': 'yes'
-                    },
-                    {
-                        'label': 'NO',
-                        'color': 'red',
-                        'return_value': 'no'
-                    }
-                ],
-                parent_window=self.win
-            )
-
-            response = kdialog.run()
-
-            if response == 'yes':
-                self.reset_desktop()
+        do_reset_changes = kdialog.run()
+        if do_reset_changes:
+            self.reset_desktop()
 
     def reset_desktop(self):
         # Add functionality here

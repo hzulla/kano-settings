@@ -40,7 +40,7 @@ class SetScreensaver(ScrolledWindowTemplate):
         self.win = win
 
         self.table = ScreensaverTable()
-        self.orange_button.connect('button-release-event', self.go_to_advanced)
+        self.orange_button.connect('clicked', self.go_to_advanced)
 
         # The image thumbnails will be inside a table which we put
         # into a scrollable window
@@ -50,23 +50,20 @@ class SetScreensaver(ScrolledWindowTemplate):
         # Disable the Kano Button until they select a valid wallpaper
         self.kano_button.set_sensitive(False)
         self.table.connect('image_selected', self.enable_kano_button)
-        self.kano_button.connect('button-release-event', self.apply_changes)
+        self.kano_button.connect('clicked', self.apply_changes)
 
-    def go_to_advanced(self, widget=None, event=None):
+    def go_to_advanced(self, button=None):
         self.win.remove_main_widget()
         SetScreensaverAdvanced(self.win)
 
-    def apply_changes(self, button, event):
-        # If enter key is pressed or mouse button is clicked
-        if not hasattr(event, 'keyval') or event.keyval == Gdk.KEY_Return:
-
-            # Change program name in the kdesk config to change to the program
-            # name in the dictionary
-            name = self.table.get_selected()
-            program = self.table.images[name]['program']
-            set_screensaver_program(program)
-            self.table.unselect_all()
-            self.kano_button.set_sensitive(False)
+    def apply_changes(self, button):
+        # Change program name in the kdesk config to change to the program
+        # name in the dictionary
+        name = self.table.get_selected()
+        program = self.table.images[name]['program']
+        set_screensaver_program(program)
+        self.table.unselect_all()
+        self.kano_button.set_sensitive(False)
 
     def adjust_size_of_sw(self):
         '''Make scrolled window tall enough to show a full number of rows and
@@ -162,8 +159,7 @@ class SetScreensaverAdvanced(Template):
         self.win.top_bar.enable_prev()
         self.win.change_prev_callback(self.go_to_set_appearance)
 
-        self.kano_button.connect("button-release-event", self.apply_changes)
-        self.kano_button.connect("key-release-event", self.apply_changes)
+        self.kano_button.connect('clicked', self.apply_changes)
 
         # Want a label to the left, so we need to pack it separately
         checkbutton_box = Gtk.Box(
@@ -213,7 +209,7 @@ class SetScreensaverAdvanced(Template):
         check_screensaver = button.get_active()
         self.scale.set_sensitive(check_screensaver)
 
-    def apply_changes(self, widget=None, event=None):
+    def apply_changes(self, button):
         '''Get all the modifications and modify the .kdeskrc file
         '''
         if self.checkbutton.get_active():
