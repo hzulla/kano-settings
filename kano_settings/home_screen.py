@@ -173,7 +173,7 @@ class HomeScreen(Gtk.Box):
         for x in range(len(SETTINGS)):
             S = SETTINGS[x]
 
-            if S['name'] == 'WiFi':
+            if S['name'] == 'Wifi':
                 text = ''
                 if common.has_internet:
                     text = _("Connected")
