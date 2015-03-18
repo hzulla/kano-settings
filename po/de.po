@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kano-settings\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-03-18 10:15+0100\n"
+"POT-Creation-Date: 2015-03-18 10:28+0100\n"
 "PO-Revision-Date: 2015-02-13 12:14+0100\n"
 "Last-Translator:  <kontakt@hanno.de>\n"
 "Language-Team: German <kontakt@hanno.de>\n"
@@ -234,35 +234,35 @@ msgstr "(Voreinstellung)"
 msgid "(better for big screens)"
 msgstr "(prima für große Bildschirme)"
 
-#: ../kano_settings/set_about.py:36
+#: ../kano_settings/set_about.py:37
 msgid "Kano OS v.{version}"
 msgstr "Kano OS v.{version}"
 
-#: ../kano_settings/set_about.py:40
+#: ../kano_settings/set_about.py:41
 msgid "Disk space used: {used}B / {total}B"
 msgstr "Speicherplatz: {used}B von {total}B benutzt"
 
-#: ../kano_settings/set_about.py:47
+#: ../kano_settings/set_about.py:48
 msgid "Temperature: {celsius}"
 msgstr "Temperatur: {celsius}"
 
-#: ../kano_settings/set_about.py:50
+#: ../kano_settings/set_about.py:51
 msgid "Model: {model}"
 msgstr "Modell: {model}"
 
-#: ../kano_settings/set_about.py:53 ../kano_settings/set_about.py:116
+#: ../kano_settings/set_about.py:54 ../kano_settings/set_about.py:117
 msgid "Terms and conditions"
 msgstr "Nutzungsbedingungen"
 
-#: ../kano_settings/set_about.py:58
+#: ../kano_settings/set_about.py:59
 msgid "Meet the team"
 msgstr "Das Kano-Team"
 
-#: ../kano_settings/set_about.py:63
+#: ../kano_settings/set_about.py:64
 msgid "Changelog"
 msgstr "Änderungen"
 
-#: ../kano_settings/set_about.py:68 ../kano_settings/set_advanced.py:285
+#: ../kano_settings/set_about.py:69 ../kano_settings/set_advanced.py:285
 #: ../kano_settings/set_account.py:293 ../kano_settings/set_wifi.py:88
 msgid "Go back"
 msgstr "Zurück"
@@ -314,37 +314,41 @@ msgstr "Bildschirmschoner anschalten"
 
 #: ../kano_settings/set_screensaver.py:178
 msgid ""
-"Length of time in seconds\n"
+"Length of time in minutes\n"
 "before screensaver launches"
 msgstr ""
-"Zeit in Sekunden bis\n"
+"Zeit in Minuten bis\n"
 "Bildschirmschoner startet"
 
-#: ../kano_settings/set_appearance.py:35
+#: ../kano_settings/set_appearance.py:40
 msgid "Wallpaper"
 msgstr "Hintergrundbild"
 
-#: ../kano_settings/set_appearance.py:36
+#: ../kano_settings/set_appearance.py:41
 msgid "Screensaver"
 msgstr "Bildschirmschoner"
 
-#: ../kano_settings/set_appearance.py:58
+#: ../kano_settings/set_appearance.py:42
+msgid "General"
+msgstr "Allgemein"
+
+#: ../kano_settings/set_appearance.py:63
 msgid "Reset your desktop"
 msgstr "Desktop zurücksetzen"
 
-#: ../kano_settings/set_appearance.py:67
+#: ../kano_settings/set_appearance.py:72
 msgid "This will reset all of your desktop changes"
 msgstr "Dies nimmt alle Änderungen am Desktop zurück"
 
-#: ../kano_settings/set_appearance.py:68
+#: ../kano_settings/set_appearance.py:73
 msgid "Do you want to continue?"
 msgstr "Willst Du das?"
 
-#: ../kano_settings/set_appearance.py:71 ../kano_settings/set_overclock.py:90
+#: ../kano_settings/set_appearance.py:76 ../kano_settings/set_overclock.py:90
 msgid "No"
 msgstr "Nein"
 
-#: ../kano_settings/set_appearance.py:76 ../kano_settings/set_overclock.py:95
+#: ../kano_settings/set_appearance.py:81 ../kano_settings/set_overclock.py:95
 msgid "Yes"
 msgstr "Ja"
 
@@ -839,3 +843,4 @@ msgstr "Alle Einstellungen"
 #: ../lxpanel-plugin/kano_settings.c:253
 msgid "A quick access to important settings."
 msgstr "Schnellzugriff auf alle wichtigen Einstellungen."
+
