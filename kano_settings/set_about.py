@@ -33,39 +33,39 @@ class SetAbout(Gtk.Box):
         image = Gtk.Image.new_from_file(media + "/Graphics/about-screen.png")
 
         version_align = self.create_align(
-            "Kano OS v.{version}".format(version = get_current_version()),
+            _("Kano OS v.{version}").format(version = get_current_version()),
             'about_version'
             )
         space_align = self.create_align(
-            "Disk space used: {used}B / {total}B".format(**get_space_available())
+            _("Disk space used: {used}B / {total}B").format(**get_space_available())
         )
         try:
             celsius = u"{:.1f}\N{DEGREE SIGN}C".format(get_temperature())
         except ValueError:
             celsius = "?"
         temperature_align = self.create_align(
-            u"Temperature: {celsius}".format(celsius = celsius)
+            _(u"Temperature: {celsius}").format(celsius = celsius)
         )
         model_align = self.create_align(
-            "Model: {model}".format(model = get_model_name())
+            _("Model: {model}").format(model = get_model_name())
         )
 
-        terms_and_conditions = OrangeButton("Terms and conditions")
+        terms_and_conditions = OrangeButton(_("Terms and conditions"))
         terms_and_conditions.connect(
             'clicked', self.show_terms_and_conditions
         )
 
-        credits_button = OrangeButton("Meet the team")
+        credits_button = OrangeButton(_("Meet the team"))
         credits_button.connect(
             'clicked', self.show_credits
         )
 
-        changelog_button = OrangeButton("Changelog")
+        changelog_button = OrangeButton(_("Changelog"))
         changelog_button.connect(
             'clicked', self.show_changelog
         )
 
-        self.kano_button = KanoButton("BACK")
+        self.kano_button = KanoButton(_("Go back").upper())
         self.kano_button.pack_and_align()
 
         hbox = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=0)
@@ -113,7 +113,7 @@ class SetAbout(Gtk.Box):
             with open(legal_dir + file, 'r') as f:
                 legal_text = legal_text + f.read() + '\n\n\n'
 
-        kdialog = KanoDialog("Terms and conditions", "",
+        kdialog = KanoDialog(_("Terms and conditions"), "",
                              scrolled_text=legal_text,
                              parent_window=self.win)
         kdialog.run()

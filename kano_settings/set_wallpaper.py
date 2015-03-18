@@ -27,9 +27,9 @@ class SetWallpaper(ScrolledWindowTemplate):
         # kano button and optionally an orange link
         ScrolledWindowTemplate.__init__(
             self,
-            'Choose your Wallpaper',
+            _("Choose your Wallpaper"),
             '',
-            'CHANGE WALLPAPER'
+            _("Change wallpaper").upper()
         )
 
         self.win = win

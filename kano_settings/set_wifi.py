@@ -24,7 +24,7 @@ class SetWifi(Template):
 
     def __init__(self, win):
 
-        Template.__init__(self, "", "to be set", "COMPLETE")
+        Template.__init__(self, "", _("not configured"), _("Complete").upper())
 
         self.win = win
         self.win.set_main_widget(self)
@@ -34,9 +34,9 @@ class SetWifi(Template):
         internet_img = Gtk.Image()
 
         # Very hacky way to centre the Proxy button - put spaces in the label
-        self.proxy_button = OrangeButton("Proxy  ")
+        self.proxy_button = OrangeButton(_("Proxy  "))
         self.proxy_button.connect('clicked', self.go_to_proxy)
-        self.disable_proxy = OrangeButton("Disable proxy")
+        self.disable_proxy = OrangeButton(_("Disable proxy"))
 
         self.win.change_prev_callback(self.win.go_to_home)
         self.win.top_bar.enable_prev()
@@ -66,13 +66,13 @@ class SetWifi(Template):
 
         if not common.has_internet or not network_info_dict:
             if network_info_dict:
-                description = "Use the browser to log in or configure proxy"
+                description = _("Use the browser to log in or configure proxy")
             else:
-                description = "Configure wireless"
+                description = _("Configure wireless")
 
-            title = "Get connected"
+            title = _("Get connected")
 
-            self.add_connection = KanoButton("WIFI")
+            self.add_connection = KanoButton(_("WiFi").upper())
             self.add_connection.connect('clicked', self.configure_wifi)
             # We removed the ability to use keyboard to click, so we also remove ability
             # to get keyboard focus
@@ -84,12 +84,12 @@ class SetWifi(Template):
 
             status_box.pack_start(self.add_connection, False, False, 0)
             internet_img.set_from_file(common.media + "/Graphics/Internet-noConnection.png")
-            internet_status.set_text("No network found")
-            self.kano_button.set_label("BACK")
+            internet_status.set_text(_("No network found"))
+            self.kano_button.set_label(_("Go back").upper())
 
             status_box.pack_start(configure_container, False, False, 3)
 
-            go_to_portal_button = OrangeButton("Browser Login")
+            go_to_portal_button = OrangeButton(_("Browser Login"))
             go_to_portal_button.connect('clicked', launch_chromium)
             configure_container.pack_start(go_to_portal_button, False, False, 0)
 
@@ -99,7 +99,7 @@ class SetWifi(Template):
             configure_container.pack_end(self.proxy_button, False, False, 0)
 
         else:
-            self.kano_button.set_label("COMPLETE")
+            self.kano_button.set_label(_("Complete").upper())
 
             status_box.pack_start(internet_status, False, False, 3)
             status_box.pack_start(internet_action, False, False, 3)
@@ -114,24 +114,24 @@ class SetWifi(Template):
             internet_status.set_text(network_text)
             internet_action.set_text(ip)
 
-            go_to_portal_button = OrangeButton("Browser Login")
+            go_to_portal_button = OrangeButton(_("Browser Login"))
             go_to_portal_button.connect('clicked', launch_chromium)
             configure_container.pack_start(go_to_portal_button, False, False, 0)
 
             if network_text == 'Ethernet':
-                title = "Connection found!"
-                description = "You're on a wired network"
+                title = _("Connection found!")
+                description = _("You're on a wired network.")
                 # Change to ethernet image here
                 internet_img.set_from_file(common.media + "/Graphics/Internet-ethernetConnection.png")
 
             else:
-                title = "Connection found!"
-                description = "You're on a wireless network"
+                title = _("Connection found!")
+                description = _("You're on a wireless network.")
 
                 divider_label = Gtk.Label("|")
                 configure_container.pack_start(divider_label, False, False, 3)
 
-                configure_button = OrangeButton("Configure")
+                configure_button = OrangeButton(_("Configure"))
                 configure_button.connect('clicked', self.configure_wifi)
                 configure_container.pack_start(configure_button, False, False, 0)
 
@@ -167,8 +167,8 @@ class SetProxy(Gtk.Box):
         self.win.set_main_widget(self)
 
         self.heading = Heading(
-            "Proxy",
-            "Connect via a friend"
+            _("Proxy"),
+            _("Connect via a friend")
         )
 
         grid = Gtk.Grid(column_homogeneous=False, column_spacing=10, row_spacing=10)
@@ -178,26 +178,26 @@ class SetProxy(Gtk.Box):
         self.win.change_prev_callback(self.go_to_wifi)
 
         self.ip_entry = Gtk.Entry()
-        self.ip_entry.props.placeholder_text = "IP address"
+        self.ip_entry.props.placeholder_text = _("IP address")
         self.ip_entry.connect("key-release-event", self.proxy_enabled)
 
         self.username_entry = Gtk.Entry()
-        self.username_entry.props.placeholder_text = "Username"
+        self.username_entry.props.placeholder_text = _("Username")
         self.username_entry.connect("key-release-event", self.proxy_enabled)
 
         self.port_entry = Gtk.Entry()
-        self.port_entry.props.placeholder_text = "Port"
+        self.port_entry.props.placeholder_text = _("Port")
         self.port_entry.connect("key-release-event", self.proxy_enabled)
 
         self.password_entry = Gtk.Entry()
-        self.password_entry.props.placeholder_text = "Password"
+        self.password_entry.props.placeholder_text = _("Password")
         self.password_entry.set_visibility(False)
         self.password_entry.connect("key-release-event", self.proxy_enabled)
 
         password_box = Gtk.Box()
         password_box.add(self.password_entry)
 
-        self.checkbutton = Gtk.CheckButton("enable proxy")
+        self.checkbutton = Gtk.CheckButton(_("Enable proxy"))
         self.read_config()
         self.checkbutton.connect('clicked', self.proxy_status)
         self.checkbutton.set_can_focus(False)
@@ -225,9 +225,9 @@ class SetProxy(Gtk.Box):
 
         # Change text of kano button depending on if proxy is enabled
         if self.checkbutton.get_active():
-            self.kano_button.set_label("ENABLE PROXY")
+            self.kano_button.set_label(_("Enable proxy").upper())
         else:
-            self.kano_button.set_label("DISABLE PROXY")
+            self.kano_button.set_label(_("Disable proxy").upper())
 
         self.win.show_all()
 
@@ -282,7 +282,7 @@ class SetProxy(Gtk.Box):
 
                 success, text = test_proxy()
                 if not success:
-                    title = "Error with proxy"
+                    title = _("Error with proxy")
                     description = text
                     return_value = 1
 
@@ -290,14 +290,14 @@ class SetProxy(Gtk.Box):
                     set_all_proxies(False)
                     common.proxy_enabled = False
                 else:
-                    title = "Successfully enabled proxy"
+                    title = _("Successfully enabled proxy")
                     description = ""
                     return_value = 0
 
             else:
                 set_all_proxies(False)
                 common.proxy_enabled = False
-                title = "Successfully disabled proxy"
+                title = _("Successfully disabled proxy")
                 description = ""
                 return_value = 0
 
@@ -307,7 +307,7 @@ class SetProxy(Gtk.Box):
                     description,
                     [
                         {
-                            'label': "OK",
+                            'label': _("OK").upper(),
                             'color': 'green',
                             'return_value': return_value
                         }
@@ -341,14 +341,14 @@ class SetProxy(Gtk.Box):
             self.username_entry.set_sensitive(True)
             # Run to see if it need enabling
             self.proxy_enabled()
-            self.kano_button.set_label("ENABLE PROXY")
+            self.kano_button.set_label(_("Enable proxy").upper())
 
         else:
             self.ip_entry.set_sensitive(False)
             self.port_entry.set_sensitive(False)
             self.password_entry.set_sensitive(False)
             self.username_entry.set_sensitive(False)
-            self.kano_button.set_label("DISABLE PROXY")
+            self.kano_button.set_label(_("Disable proxy").upper())
             self.kano_button.set_sensitive(True)
 
     # if proxy enabled: ip address, port are mandatory

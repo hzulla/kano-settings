@@ -23,9 +23,9 @@ class ParentalConfig(Template):
     def __init__(self, win):
         Template.__init__(
             self,
-            "Parental lock",
-            "Configure your parental lock settings",
-            "APPLY CHANGES"
+            _("Parental lock"),
+            _("Configure your parental lock settings."),
+            _("Apply changes").upper()
         )
 
         self.parental_level = Gtk.VScale(
@@ -40,24 +40,24 @@ class ParentalConfig(Template):
 
         self._parental_labels = [
             (
-                Gtk.Label("Low Settings"),
-                Gtk.Label("Blocks blacklisted websites")
+                Gtk.Label(_("Low Settings")),
+                Gtk.Label(_("Blocks blacklisted websites"))
             ),
             (
-                Gtk.Label("Medium Settings"),
-                Gtk.Label("Switch to use filtering DNS servers")
+                Gtk.Label(_("Medium Settings")),
+                Gtk.Label(_("Switch to use filtering DNS servers"))
             ),
             (
-                Gtk.Label("High Settings"),
-                Gtk.Label("Enable everything")
+                Gtk.Label(_("High Settings")),
+                Gtk.Label(_("Enable everything"))
             ),
             (
-                Gtk.Label("Ultimate Settings"),
-                Gtk.Label("Only allow access to Kano World")
+                Gtk.Label(_("Ultimate Settings")),
+                Gtk.Label(_("Only allow access to Kano World"))
             )
         ]
 
-        self.blacklist_button = OrangeButton("Configure allowed/blocked")
+        self.blacklist_button = OrangeButton(_("Configure allowed/blocked"))
         self.blacklist_button.connect('clicked', self.go_to_blacklist)
 
         self._value_change_handler(self.parental_level)
@@ -100,8 +100,8 @@ class ParentalConfig(Template):
             # the browser
             kdialog = KanoDialog(
                 title_text=(
-                    "If any browsers are open, please relaunch them for "
-                    "this setting to take effect"
+                    _("If any browsers are open, please relaunch them for "
+                    "this setting to take effect")
                 ),
                 parent_window=self.win
             )
@@ -146,9 +146,9 @@ class AllowedSites(Template):
     def __init__(self, win):
         Template.__init__(
             self,
-            "Allow and Block Sites",
-            "Add extra sites to block or allow",
-            "APPLY CHANGES"
+            _("Allow and block sites"),
+            _("Add extra sites to block or allow."),
+            _("Apply changes").upper()
         )
 
         self.win = win
@@ -170,10 +170,10 @@ class AllowedSites(Template):
         grid.set_column_spacing(40)
 
         grid.attach(
-            Gtk.Label("Add extra sites to block"), 0, 0, 1, 1)
+            Gtk.Label(_("Add extra sites to block")), 0, 0, 1, 1)
         grid.attach(self.blacklist, 0, 1, 1, 1)
         grid.attach(
-            Gtk.Label("Something blocked that shouldn't be?"), 1, 0, 1, 1)
+            Gtk.Label(_("Something blocked that shouldn't be?")), 1, 0, 1, 1)
         grid.attach(self.whitelist, 1, 1, 1, 1)
         self.box.pack_start(grid, False, False, 0)
 
@@ -218,8 +218,8 @@ class ParentalPasswordDialog(KanoDialog):
         self.win = win
         KanoDialog.__init__(
             self,
-            title_text='Parental Authentication',
-            description_text='Enter your parental password:',
+            title_text=_("Parental Authentication"),
+            description_text=_("Enter your parental password:"),
             widget=entry,
             has_entry=True,
             global_style=True,
@@ -233,8 +233,8 @@ class ParentalPasswordDialog(KanoDialog):
             return True
 
         fail = KanoDialog(
-            title_text='Try again?',
-            description_text='The password was incorrect. Not applying changes',
+            title_text=_("Try again?"),
+            description_text=_("The password was incorrect. Not applying changes"),
             parent_window=self.win
         )
         fail.run()

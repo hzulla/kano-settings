@@ -21,6 +21,11 @@ config_file = os.path.join('/home', username, '.config/lxsession/LXDE/desktop.co
 
 
 MODES = ['Small', 'Normal', 'Big']
+LABELS = {
+    'Small': _("Small"),
+    'Normal': _("Normal"),
+    'Big': _("Big")
+}
 
 
 class SetFont(RadioButtonTemplate):
@@ -30,13 +35,13 @@ class SetFont(RadioButtonTemplate):
     def __init__(self, win):
         RadioButtonTemplate.__init__(
             self,
-            "Font",
-            "Choose a comfortable text size",
-            "APPLY CHANGES",
+            _("Font"),
+            _("Choose a comfortable text size:"),
+            _("Apply changes").upper(),
             [
-                ["Small", "BETTER FOR SMALL SCREENS"],
-                ["Normal", "DEFAULT"],
-                ["Big", "BETTER FOR BIG SCREENS"]
+                [LABELS['Small'], _("(better for small screens)")],
+                [LABELS['Normal'], _("(Default)")],
+                [LABELS['Big'], _("(better for big screens)")]
             ]
         )
 

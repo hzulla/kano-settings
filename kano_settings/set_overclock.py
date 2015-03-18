@@ -15,6 +15,16 @@ from kano.utils import is_model_2_b
 from kano.gtk3.kano_dialog import KanoDialog
 
 
+LABELS = {
+    'None': _("None"),
+    'Modest':_("Modest"),
+    'Medium': _("Medium"),
+    'High': _("High"),
+    'Turbo': _("Turbo"),
+    'Standard': _("Standard"),
+    'Overclocked': _("Overclocked")
+}
+
 class SetOverclock(RadioButtonTemplate):
     selected_button = 0
     initial_button = 0
@@ -26,19 +36,19 @@ class SetOverclock(RadioButtonTemplate):
         options = []
         for m in CLOCK_MODES[self.is_pi2]['modes']:
             options.append([
-                m,
-                "{arm_freq}HZ ARM, "
+                LABELS[m],
+                _("{arm_freq}HZ ARM, "
                 "{core_freq}HZ CORE, "
                 "{sdram_freq}MHZ SDRAM, "
-                "{over_voltage} OVERVOLT"
+                "{over_voltage} OVERVOLT")
                 .format(**CLOCK_MODES[self.is_pi2]['values'][m])
             ])
 
         RadioButtonTemplate.__init__(
             self,
-            "Overclock your processor",
-            "Make your computer's brain think faster, but run hotter.",
-            "APPLY CHANGES",
+            _("Overclock your processor"),
+            _("Make your computer's brain think faster, but run hotter."),
+            _("Apply changes").upper(),
             options
         )
         
@@ -69,20 +79,20 @@ class SetOverclock(RadioButtonTemplate):
         if is_dangerous_overclock_value(config, self.is_pi2):
 
             kdialog = KanoDialog(
-                title_text="Warning",
+                title_text = _("Warning"),
                 description_text=(
-                    "For a small percentage of users, this setting makes "
+                    _("For a small percentage of users, this setting makes "
                     "the Pi behave unpredictably. Do you want to "
-                    "continue?"
+                    "continue?")
                 ),
                 button_dict=[
                     {
-                        'label': "NO",
+                        'label': _("No").upper(),
                         'color': 'red',
                         'return_value': False
                     },
                     {
-                        'label': "YES",
+                        'label': _("Yes").upper(),
                         'color': 'green',
                         'return_value': True
                     }

@@ -39,19 +39,19 @@ class SetAccount(Gtk.Box):
         self.added_or_removed_account = False
 
         main_heading = Heading(
-            "System account settings",
-            "Set your account"
+            _("System account settings"),
+            _("Set your account.")
         )
 
-        self.pass_button = KanoButton("CHANGE PASSWORD")
+        self.pass_button = KanoButton(_("Change password").upper())
         self.pass_button.pack_and_align()
         self.pass_button.connect('clicked', self.go_to_password_screen)
 
-        self.add_button = KanoButton("ADD ACCOUNT")
+        self.add_button = KanoButton(_("Add account").upper())
         self.add_button.set_size_request(200, 44)
         self.add_button.connect('clicked', self.add_account)
 
-        self.remove_button = KanoButton("REMOVE ACCOUNT", color="red")
+        self.remove_button = KanoButton(_("Remove account").upper(), color="red")
         self.remove_button.set_size_request(200, 44)
         self.remove_button.connect('clicked', self.remove_account_dialog)
 
@@ -63,8 +63,8 @@ class SetAccount(Gtk.Box):
         button_align.add(button_container)
 
         accounts_heading = Heading(
-            "Accounts",
-            "Add or remove accounts"
+            _("Accounts"),
+            _("Add or remove accounts.")
         )
 
         # Check if we already scheduled an account add or remove by checking the file
@@ -88,8 +88,8 @@ class SetAccount(Gtk.Box):
     def add_account(self, button):
         # Bring in message dialog box
         kdialog = kano_dialog.KanoDialog(
-            "Reboot the system",
-            "A new account will be created next time you reboot.",
+            _("Reboot the system"),
+            _("A new account will be created next time you reboot."),
             parent_window=self.win
         )
         kdialog.run()
@@ -105,16 +105,16 @@ class SetAccount(Gtk.Box):
     def remove_account_dialog(self, button=None):
         # Bring in message dialog box
         kdialog = kano_dialog.KanoDialog(
-            "Are you sure you want to delete the current user?",
-            "You will lose all the data on this account!",
+            _("Are you sure you want to delete the current user?"),
+            _("You will lose all the data on this account!"),
             [
                 {
-                    'label': "CANCEL",
+                    'label': _("Cancel").upper(),
                     'color': 'red',
                     'return_value': False
                 },
                 {
-                    'label': "OK",
+                    'label': _("OK").upper(),
                     'color': 'green',
                     'return_value': True
                 }
@@ -128,16 +128,16 @@ class SetAccount(Gtk.Box):
             delete_user()
 
             kdialog = kano_dialog.KanoDialog(
-                "To finish removing this account, you need to reboot",
-                "Do you want to reboot?",
+                _("To finish removing this account, you need to reboot"),
+                _("Do you want to reboot?"),
                 [
                     {
-                        'label': "LATER",
+                        'label': _("Later").upper(),
                         'color': 'grey',
                         'return_value': False
                     },
                     {
-                        'label': "REBOOT NOW",
+                        'label': _("Reboot now").upper(),
                         'color': 'orange',
                         'return_value': True
                     }
@@ -161,31 +161,31 @@ class SetPassword(Template):
     def __init__(self, win):
         Template.__init__(
             self,
-            "Change your password",
+            _("Change your password"),
             "",
-            "CHANGE PASSWORD"
+            _("Change password").upper()
         )
 
         self.labelled_entries = LabelledEntries(
-            [{"heading": "Old password", "subheading": "\"kano\" is default"},
-             {"heading": "New password", "subheading": ""},
-             {"heading": "Repeat new password", "subheading": ""}]
+            [{"heading": _("Old password"), "subheading": _("\"kano\" is default")},
+             {"heading": _("New password"), "subheading": ""},
+             {"heading": _("Repeat new password"), "subheading": ""}]
         )
 
         self.entry1 = self.labelled_entries.get_entry(0)
         self.entry1.set_size_request(300, 44)
         self.entry1.set_visibility(False)
-        self.entry1.props.placeholder_text = "Old password"
+        self.entry1.props.placeholder_text = _("Old password")
 
         self.entry2 = self.labelled_entries.get_entry(1)
         self.entry2.set_size_request(300, 44)
         self.entry2.set_visibility(False)
-        self.entry2.props.placeholder_text = "New password"
+        self.entry2.props.placeholder_text = _("New password")
 
         self.entry3 = self.labelled_entries.get_entry(2)
         self.entry3.set_size_request(300, 44)
         self.entry3.set_visibility(False)
-        self.entry3.props.placeholder_text = "Repeat new password"
+        self.entry3.props.placeholder_text = _("Repeat new password")
 
         self.entry1.connect("key_release_event", self.enable_button)
         self.entry2.connect("key_release_event", self.enable_button)
@@ -223,13 +223,13 @@ class SetPassword(Template):
             password_verified = verify_current_password(old_password)
 
             if not password_verified:
-                title = "Could not change password"
-                description = "Your old password is incorrect!"
+                title = _("Could not change password")
+                description = _("Your old password is incorrect!")
             elif new_password1 == new_password2:
                 title, description, success = self.try_change_password(new_password1)
             else:
-                title = "Could not change password"
-                description = "Your new passwords don't match! Try again."
+                title = _("Could not change password")
+                description = _("Your new passwords don't match! Try again.")
 
             def done(title, description, success):
                 if success:
@@ -258,10 +258,10 @@ class SetPassword(Template):
 
         # if password is not changed
         if cmdvalue != 0:
-            title = "Could not change password"
-            description = "Your new password is not long enough or contains special characters."
+            title = _("Could not change password")
+            description = _("Your new password is not long enough or contains special characters.")
         else:
-            title = "Password changed!"
+            title = _("Password changed!")
             description = ""
             success = True
 
@@ -284,18 +284,18 @@ class SetPassword(Template):
         self.kano_button.set_sensitive(text1 != "" and text2 != "" and text3 != "")
 
 
-def create_error_dialog(message1="Could not change password", message2="", win=None):
+def create_error_dialog(message1=_("Could not change password"), message2="", win=None):
     kdialog = kano_dialog.KanoDialog(
         message1,
         message2,
         [
             {
-                'label': "GO BACK",
+                'label': _("Go back").upper(),
                 'color': 'red',
                 'return_value': False
             },
             {
-                'label': "TRY AGAIN",
+                'label': _("Try again").upper(),
                 'color': 'green',
                 'return_value': True
             }

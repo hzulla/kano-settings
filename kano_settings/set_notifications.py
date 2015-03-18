@@ -17,13 +17,13 @@ class SetNotifications(RadioButtonTemplate):
     def __init__(self, win):
         RadioButtonTemplate.__init__(
             self,
-            "Notifications",
-            "Here you can manage the built-in notification system",
-            "APPLY CHANGES",
+            _("Notifications"),
+            _("Here you can manage the built-in notification system."),
+            _("Apply changes").upper(),
             [
-                ["Show all notifications", ""],
-                ["Hide all notifications", ""],
-                ["Hide only Kano World notifications", ""]
+                [_("Show all notifications"), ""],
+                [_("Hide all notifications"), ""],
+                [_("Hide only Kano World notifications"), ""]
             ]
         )
 

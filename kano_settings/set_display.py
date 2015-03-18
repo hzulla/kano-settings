@@ -21,20 +21,23 @@ class SetDisplay(Template):
     def __init__(self, win):
         # Show the Display brand and model
         self.model = get_model()
-        info_message = ' (Changing this requires a reboot)'
+        info_message = self.model
 
         # And the current display resolution
         try:
             current_resolution = get_status()['resolution']
-            info_message += '\n\nCurrent resolution: {}'.format(current_resolution)
+            info_message += '\n' + _("Current resolution: {}").format(current_resolution)
         except:
             pass
 
+        info_message += '\n\n' + _("(Changing this requires a reboot.)")
+
+
         Template.__init__(
             self,
-            "Display",
-            self.model + info_message,
-            "APPLY CHANGES"
+            _("Display"),
+            info_message,
+            _("Apply changes").upper()
         )
 
         self.win = win
@@ -69,7 +72,7 @@ class SetDisplay(Template):
         self.mode_combo.set_selected_item_index(active_item)
         self.init_item = active_item
         # Overscan button
-        overscan_button = OrangeButton("Overscan")
+        overscan_button = OrangeButton(_("Overscan"))
         horizontal_container.pack_end(overscan_button, False, False, 0)
         overscan_button.connect('clicked', self.go_to_overscan)
 
@@ -126,7 +129,7 @@ class OverscanTemplate(Gtk.Box):
     def __init__(self, win, title, description, original_overscan=None):
         Gtk.Box.__init__(self, orientation=Gtk.Orientation.VERTICAL)
 
-        self.kano_button = KanoButton("APPLY CHANGES")
+        self.kano_button = KanoButton(_("Apply changes").upper())
         self.kano_button.connect('clicked', self.apply_changes)
         self.kano_button.pack_and_align()
 
@@ -192,8 +195,8 @@ class SetSimpleOverscan(OverscanTemplate):
         OverscanTemplate.__init__(
             self,
             win,
-            "Overscan",
-            "This setting lets you adjust your screen's size.",
+            _("Overscan"),
+            _("This setting lets you adjust your screen's size."),
             original_overscan
         )
 
@@ -224,7 +227,7 @@ class SetSimpleOverscan(OverscanTemplate):
         # Advance button
         self.advanced_button = OrangeButton()
         self.advanced_button.connect('clicked', self.go_to_advanced)
-        self.advanced_button.set_label("Advanced")
+        self.advanced_button.set_label(_("Advanced"))
 
         button_box = Gtk.ButtonBox()
         button_box.set_layout(Gtk.ButtonBoxStyle.SPREAD)
@@ -280,8 +283,8 @@ class SetAdvancedOverscan(OverscanTemplate):
         OverscanTemplate.__init__(
             self,
             win,
-            "Overscan",
-            "This setting lets you adjust your screen's size, edge by edge.",
+            _("Overscan"),
+            _("This setting lets you adjust your screen's size, edge by edge."),
             original_overscan
         )
 
@@ -348,7 +351,12 @@ class SetAdvancedOverscan(OverscanTemplate):
         dir_label = Gtk.Label()
         dir_label.get_style_context().add_class("slider_label")
         dir_label.set_alignment(xalign=1, yalign=1)
-        dir_label.set_text(direction.title())
+        dir_label.set_text({
+            'top': _("Top"),
+            'bottom': _("Bottom"),
+            'left': _("Left"),
+            'right': _("Right")
+        }.get(direction))
         self.update_value(slider, value_label)
         return value_label, slider, dir_label
 

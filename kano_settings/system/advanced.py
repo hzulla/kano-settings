@@ -14,7 +14,7 @@ import hashlib
 import subprocess
 import signal
 import urllib2
-from bs4 import BeautifulSoup
+#from bs4 import BeautifulSoup
 
 from kano_settings.common import settings_dir
 from kano.utils import read_file_contents, write_file_contents, \
@@ -59,8 +59,8 @@ def set_parental_enabled(setting, _password):
         logger.debug('enabling hosts file')
         set_hosts_blacklist(True)
 
-        msg = "Parental lock enabled!"
-        logger.debug(msg)
+        msg = _("Parental lock enabled!")
+        logger.debug("Parental lock enabled!")
 
         return True, msg
 
@@ -76,15 +76,15 @@ def set_parental_enabled(setting, _password):
             logger.debug('disabling hosts file')
             set_hosts_blacklist(False)
 
-            msg = "Parental lock disabled!"
-            logger.debug(msg)
+            msg = _("Parental lock disabled!")
+            logger.debug("Parental lock disabled!")
 
             return True, msg
 
         # password doesn't match
         else:
-            msg = "Password doesn't match\nleaving parental lock enabled!"
-            logger.debug(msg)
+            msg = _("Password doesn't match\nleaving parental lock enabled!")
+            logger.debug("Password doesn't match\nleaving parental lock enabled!")
 
             return False, msg
 

@@ -140,7 +140,7 @@ def test_proxy():
         else:
             return False, response.reason
     except Exception:
-        return False, 'Problem connecting to the proxy server'
+        return False, _("Problem connecting to the proxy server")
 
 
 

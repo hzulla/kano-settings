@@ -34,9 +34,9 @@ class SetKanoKeyboard(Template):
     def __init__(self, win):
         Template.__init__(
             self,
-            "Keyboard",
-            "Kano keyboard detected",
-            "APPLY CHANGES"
+            _("Keyboard"),
+            _("Kano keyboard detected"),
+            _("Apply changes").upper()
         )
 
         self.win = win
@@ -48,7 +48,7 @@ class SetKanoKeyboard(Template):
         img.set_from_file(common.media + "/Graphics/keyboard.png")
 
         # Link to advance options
-        self.to_advance_button = OrangeButton("Layout options")
+        self.to_advance_button = OrangeButton(_("Layout options"))
         self.to_advance_button.connect('clicked', self.to_advance)
 
         self.kano_button.connect('clicked', self.win.go_to_home)
@@ -82,9 +82,9 @@ class SetKeyboard(Template):
     def __init__(self, win):
         Template.__init__(
             self,
-            "Keyboard",
-            "Where do you live? So I can set your keyboard.",
-            "APPLY CHANGES"
+            _("Keyboard"),
+            _("Where do you live? So I can set your keyboard."),
+            _("Apply changes").upper()
         )
 
         self.win = win
@@ -116,7 +116,7 @@ class SetKeyboard(Template):
         self.countries_combo.props.valign = Gtk.Align.CENTER
 
         # Create Advance mode checkbox
-        advance_button = Gtk.CheckButton("Advanced options")
+        advance_button = Gtk.CheckButton(_("Advanced options"))
         advance_button.set_can_focus(False)
         advance_button.props.valign = Gtk.Align.CENTER
         advance_button.connect("clicked", self.on_advance_mode)

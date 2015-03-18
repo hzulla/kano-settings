@@ -32,8 +32,8 @@ class SetAppearance(Gtk.Notebook):
         screensaver_widget = SetScreensaver(self.win)
         # reset_widget = SetResetDesktop(self.win)
 
-        wallpaper_label = Gtk.Label('WALLPAPER')
-        screensaver_label = Gtk.Label('SCREENSAVER')
+        wallpaper_label = Gtk.Label(_("Wallpaper").upper())
+        screensaver_label = Gtk.Label(_("Screensaver").upper())
         # general_label = Gtk.Label('GENERAL')
 
         # Add the screensaver and wallpaper tabs
@@ -55,7 +55,7 @@ class SetResetDesktop(Gtk.Box):
 
         self.win = win
 
-        reset_button = KanoButton(text='RESET YOUR DESKTOP', color='orange')
+        reset_button = KanoButton(text = _("Reset your desktop").upper(), color='orange')
         reset_button.connect('clicked', self.reset_button_cb)
         reset_button.pack_and_align()
         reset_button.align.set(0.5, 0.5, 0, 0)
@@ -64,16 +64,16 @@ class SetResetDesktop(Gtk.Box):
 
     def reset_button_cb(self, button):
         kdialog = KanoDialog(
-            title_text='This will reset all of your desktop changes',
-            description_text='Do you want to continue?',
+            title_text = _("This will reset all of your desktop changes"),
+            description_text = _("Do you want to continue?"),
             button_dict=[
                 {
-                    'label': 'NO',
+                    'label': _("No").upper(),
                     'color': 'red',
                     'return_value': False
                 },
                 {
-                    'label': 'YES',
+                    'label': _("Yes").upper(),
                     'color': 'green',
                     'return_value': True
                 }
