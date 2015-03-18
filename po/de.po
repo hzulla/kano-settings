@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kano-settings\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-03-18 10:28+0100\n"
+"POT-Creation-Date: 2015-03-18 13:31+0100\n"
 "PO-Revision-Date: 2015-02-13 12:14+0100\n"
 "Last-Translator:  <kontakt@hanno.de>\n"
 "Language-Team: German <kontakt@hanno.de>\n"
@@ -33,6 +33,227 @@ msgstr "Später"
 #: ../bin/kano-settings:104 ../kano_settings/set_account.py:140
 msgid "Reboot now"
 msgstr "Jetzt neu starten"
+
+#: ../bin/kano-wifi:111
+msgid "Choose a network:"
+msgstr "Wähle ein WLAN-Netz aus:"
+
+#: ../bin/kano-wifi:114
+msgid "Open"
+msgstr "Offen"
+
+#: ../bin/kano-wifi:116
+msgid "Protected"
+msgstr "Verschlüsselt"
+
+#: ../bin/kano-wifi:129
+msgid "Enter the name of the hidden network"
+msgstr "Der Name des versteckten WLANs"
+
+#: ../bin/kano-wifi:133
+msgid ""
+"{{6 - }} {{5 Please enter the name of the hidden wireless network (SSID) }}"
+msgstr ""
+"{{6 - }} {{5 Wie heißt das versteckte WLAN? (SSID) }}"
+
+#: ../bin/kano-wifi:137
+msgid "Is the network protected? {{1 N}}o, {{1 W}}EP, W{{1P}}A"
+msgstr "Ist das WLAN verschlüsselt? {{1 N}}ein, {{1 W}}EP, W{{1P}}A"
+
+#: ../bin/kano-wifi:140
+msgid "No,N/WEP,W/WPA,P"
+msgstr "Nein,N/WEP,W/WPA,P"
+
+#: ../bin/kano-wifi:143
+msgid ""
+"{{6 - }} {{5 Please answer }} {{1 N }}{{5,}} {{1 W }}{{5, or }} {{1 P }}"
+msgstr ""
+"{{6 - }} {{5 Bitte antworte }} {{1 N }}{{5,}} {{1 W }}{{5, or }} {{1 P }}"
+
+#: ../bin/kano-wifi:182
+msgid "What's the network password?"
+msgstr "Wie lautet das WLAN-Passwort?"
+
+#: ../bin/kano-wifi:186
+msgid "{{8 x }} {{7 Please enter a valid network password }}"
+msgstr "{{8 x }} {{7 Bitte gib das WLAN-Passwort ein }}"
+
+#: ../bin/kano-wifi:192
+#, python-format
+msgid "Trying %s, please stand by"
+msgstr "Verbinde mit %s, bitte warte"
+
+#: ../bin/kano-wifi:206
+#, python-format
+msgid "{{6 - }} {{5 Couldn't connect to }}{{2 %s }}"
+msgstr "{{6 - }} {{5 Keine Verbindung zu }}{{2 %s }}"
+
+#: ../bin/kano-wifi:208
+msgid "{{6 - }} {{5 Do you want to re-enter the password? }} {{1 [Y]es/[n]o }}"
+msgstr "{{6 - }} {{5 Willst Du das Passwort noch einmal eingeben? }} {{1 [J]a/[n]ein }}"
+
+#: ../bin/kano-wifi:210 ../bin/kano-wifi:359 ../bin/kano-wifi:378
+#: ../bin/kano-wifi:467
+msgid "Yes,Y/No,N"
+msgstr "Ja,J/Nein,N"
+
+#: ../bin/kano-wifi:285
+msgid ""
+"{{8 x }} {{7 You need root privileges to start this app. Please try sudo }}"
+msgstr ""
+"{{8 x }} {{7 Dieses Programm benötigt root-Rechte. Bitte starte es mit sudo }}"
+
+#: ../bin/kano-wifi:296
+msgid "{{6 - }} {{5 wireless network is not connected }}"
+msgstr "{{6 - }} {{5 Keine WLAN-Verbindung }}"
+
+#: ../bin/kano-wifi:298
+#, python-format
+msgid "{{4 + }} {{3 wireless network is connected to }}{{2 %s }}"
+msgstr "{{4 + }} {{3 Verbunden mit WLAN }}{{2 %s }}"
+
+#: ../bin/kano-wifi:310
+#, python-format
+msgid "{{6 - }} {{5 Couldn't connect using configuration {{2 %s }}. }}"
+msgstr "{{6 - }} {{5 Keine Verbindung über Konfigurationsdatei {{2 %s }}. }}"
+
+#: ../bin/kano-wifi:314
+#, python-format
+msgid "{{4 + }} {{3 Great! You are connected to {{2 %s }}! }}"
+msgstr "{{4 + }} {{3 Prima! Du bist verbunden mit {{2 %s }}! }}"
+
+#: ../bin/kano-wifi:328 ../bin/kano-wifi:336
+msgid "{{4 + }} {{3 Good news! It looks like you already have internet }}"
+msgstr "{{4 + }} {{3 Gute Nachrichten! Du bist bereits mit dem Internet verbunden }}"
+
+#: ../bin/kano-wifi:340
+msgid "First, plug in your {{2wifi piece}}."
+msgstr "Bitte stecke Deinen {{2WLAN-Adapter}} in Deinen Computer."
+
+#: ../bin/kano-wifi:342
+msgid "Please take into account that the system will automatically reboot."
+msgstr "Bitte beachte: Das System wird automatisch neu starten."
+
+#: ../bin/kano-wifi:343
+msgid "If you don't want to use WiFi, press {{1 ENTER }}."
+msgstr "Drücke {{1 ENTER }}, falls Du kein WLAN benutzten möchtest."
+
+#: ../bin/kano-wifi:348
+msgid "Press {{1 ENTER }} when ready."
+msgstr "Wenn Du bereit bist, drücke {{1 ENTER }}."
+
+#: ../bin/kano-wifi:355
+#, python-format
+msgid "You are connected to {{2 %s }}"
+msgstr "Du bist verbunden mit WLAN {{2 %s }}"
+
+#: ../bin/kano-wifi:357
+msgid ""
+"Do you want to forget this network and choose a new one? {{1 [y]es/[N]o }}"
+msgstr ""
+"Willst Du dieses WLAN löschen und ein anderes auswählen? {{1 [j]a/[N]ein }}"
+
+#: ../bin/kano-wifi:368
+msgid "Help me find the signal."
+msgstr "Hilf mir. Ich suche das Signal."
+
+#: ../bin/kano-wifi:377
+msgid ""
+"{{6 - }} {{5 I can't find any wireless signals. Do you want to scan "
+"again? }} {{1 [Y]es/[n]o }}"
+msgstr ""
+"{{6 - }} {{5 Ich kann kein WLAN entdecken. Willst Du noch einmal "
+"scannen? }} {{1 [J]a/[n]ein }}"
+
+#: ../bin/kano-wifi:380
+msgid "Exiting..."
+msgstr "Beende..."
+
+#: ../bin/kano-wifi:382
+#, python-format
+msgid "Total networks: %(count)d, Page: %(page)d"
+msgstr "Anzahl Netzwerke: %(count)d, Seite: %(page)d"
+
+#: ../bin/kano-wifi:384
+msgid "{{1 r }} -> Rescan"
+msgstr "{{1 s }} -> noch einmal scannen"
+
+#: ../bin/kano-wifi:386
+msgid "{{1 n }} -> Next page"
+msgstr "{{1 n }} -> nächste Seite"
+
+#: ../bin/kano-wifi:388
+msgid "{{1 p }} -> Previous page"
+msgstr "{{1 v }} -> vorherige Seite"
+
+#: ../bin/kano-wifi:389
+msgid "{{1 h }} -> Connect to hidden network"
+msgstr "{{1 u }} -> Verbindung zu unsichtbarem WLAN mit versteckter SSID"
+
+#: ../bin/kano-wifi:390
+msgid "{{1 s }} -> Skip"
+msgstr "{{1 a }} -> Abbrechen"
+
+#: ../bin/kano-wifi:392
+msgid "Choose a network number or option letter:"
+msgstr "Wähle ein Netzwerk aus oder wähle eine Option:"
+
+#: ../bin/kano-wifi:393
+msgid "Rescan,R/Next,N/Previous,P/Hidden,H/Skip,S"
+msgstr "Scan,S/Nächste,N/Vorherige,V/Unsichtbar,U/Abbruch,A"
+
+#: ../bin/kano-wifi:405
+msgid "Scanning..."
+msgstr "Scanne..."
+
+#: ../bin/kano-wifi:441
+#, python-format
+msgid "Let's connect to {{2 %s }}"
+msgstr "Verbindung zu {{2 %s }}"
+
+#: ../bin/kano-wifi:454
+msgid "{{6 - }} {{5 This option is not in range! Please try again }}"
+msgstr "{{6 - }} {{5 Unbekannte Option, bitte versuch's noch einmal }}"
+
+#: ../bin/kano-wifi:460
+msgid "{{4 + }} {{3 Great! You are connected }}"
+msgstr "{{4 + }} {{3 Klasse! Du bist verbunden }}"
+
+#: ../bin/kano-wifi:466
+msgid "Do you want to test your connection? {{1 [y]es/[N]o }}"
+msgstr "Willst Du die Verbindung jetzt testen? {{1 [j]a/[N]ein }}"
+
+#: ../bin/kano-wifi:469
+msgid "Type {{2 ping www.google.com }}"
+msgstr "Gib {{2 ping www.google.com }} ein"
+
+#: ../bin/kano-wifi:476
+msgid ""
+"{{6 - }} {{5 Not the correct command, try again: }} {{2 ping www.google."
+"com }}"
+msgstr ""
+"{{6 - }} {{5 Falsches Kommando, versuch's noch einmal: }} {{2 ping www.google."
+"com }}"
+
+#: ../bin/kano-wifi:479
+msgid ""
+"{{8 x }} {{7 Oops! It seems the Internet is not reachable... Don't worry, we "
+"can still play! }}"
+msgstr ""
+"{{8 x }} {{7 Ups! Das Internet scheint gerade nicht erreichbar zu sein... "
+"Keine Sorge, wir können trotzdem spielen! }}"
+
+#: ../bin/kano-wifi:481
+msgid "{{4 + }} {{3 Brilliant! Internet is working }}"
+msgstr "{{4 + }} {{3 Großartig! Das Internet ist erreichbar }}"
+
+#: ../bin/kano-wifi:484
+msgid "Launching the browser so you can log in"
+msgstr "Starte jetzt den Browser, damit Du Dich einloggen kannst"
+
+#: ../bin/kano-wifi:487
+msgid "Press {{1 ENTER }} to continue"
+msgstr "Drücke {{1 ENTER }} und es geht weiter"
 
 #: ../kano_settings/set_display.py:29
 msgid "Current resolution: {}"
@@ -843,4 +1064,3 @@ msgstr "Alle Einstellungen"
 #: ../lxpanel-plugin/kano_settings.c:253
 msgid "A quick access to important settings."
 msgstr "Schnellzugriff auf alle wichtigen Einstellungen."
-
