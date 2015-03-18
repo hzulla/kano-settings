@@ -8,7 +8,8 @@
 
 #include <gtk/gtk.h>
 #include <gdk/gdk.h>
-#include <glib/gi18n.h>
+#define GETTEXT_PACKAGE "kano-settings"
+#include <glib/gi18n-lib.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
 #include <gio/gio.h>
 
@@ -30,7 +31,7 @@
 #define SETTINGS_CMD "sudo /usr/bin/kano-settings 4"
 #define RECONNECT_CMD "sudo /usr/bin/kano-connect -c wlan0"
 #define SOUND_CMD "/usr/bin/aplay /usr/share/kano-media/sounds/kano_open_app.wav"
-#define PLUGIN_TOOLTIP "Internet status"
+#define PLUGIN_TOOLTIP _("Internet status")
 
 #define MINUTE 60
 
@@ -181,7 +182,7 @@ static gboolean show_menu(GtkWidget *widget, GdkEventButton *event, kano_interne
     }
 
     /* Create the menu items */
-    header_item = gtk_menu_item_new_with_label("Internet status");
+    header_item = gtk_menu_item_new_with_label(_("Internet status"));
     gtk_widget_set_sensitive(header_item, FALSE);
     gtk_menu_append(GTK_MENU(menu), header_item);
     gtk_widget_show(header_item);
@@ -195,14 +196,14 @@ static gboolean show_menu(GtkWidget *widget, GdkEventButton *event, kano_interne
     if (internet == 0)
     {
         /* Internet working correctly */
-        GtkWidget *internet_item = gtk_menu_item_new_with_label("Connected");
+        GtkWidget *internet_item = gtk_menu_item_new_with_label(_("Connected"));
         gtk_menu_append(GTK_MENU(menu), internet_item);
         gtk_widget_show(internet_item);
     }
     else
     {
         /* Internet not working */
-        GtkWidget *internet_item = gtk_image_menu_item_new_with_label("Connect");
+        GtkWidget *internet_item = gtk_image_menu_item_new_with_label(_("Connect"));
         g_signal_connect(internet_item, "activate", G_CALLBACK(connect_clicked), NULL);
         gtk_menu_append(GTK_MENU(menu), internet_item);
         gtk_widget_show(internet_item);
