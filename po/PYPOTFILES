@@ -1,4 +1,5 @@
 ../bin/kano-settings
+../bin/kano-wifi
 ../kano_settings/set_display.py
 ../kano_settings/__init__.py
 ../kano_settings/set_notifications.py
