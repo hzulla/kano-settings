@@ -3,7 +3,7 @@
 import sys
 
 try:
-    description = sys.argv[1].strip()
+    description = sys.argv[1].decode('UTF-8').strip()
 except IndexError:
     print >> sys.stderr, (
         "Please provide a list of possible input options "
@@ -19,6 +19,8 @@ for item in description.split('/'):
     for option in item.split(','):
         value[option.strip().upper()] = i
 
-response = raw_input().strip().upper()
+encoding = 'UTF-8' if sys.stdin.encoding in (None, 'ascii') else sys.stdin.encoding
+
+response = raw_input().decode(encoding).strip().upper()
 
 print value.get(response, 0)
