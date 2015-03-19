@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kano-settings\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-03-18 13:31+0100\n"
+"POT-Creation-Date: 2015-03-19 13:56+0100\n"
 "PO-Revision-Date: 2015-02-13 12:14+0100\n"
 "Last-Translator:  <kontakt@hanno.de>\n"
 "Language-Team: German <kontakt@hanno.de>\n"
@@ -53,8 +53,7 @@ msgstr "Der Name des versteckten WLANs"
 #: ../bin/kano-wifi:133
 msgid ""
 "{{6 - }} {{5 Please enter the name of the hidden wireless network (SSID) }}"
-msgstr ""
-"{{6 - }} {{5 Wie heißt das versteckte WLAN? (SSID) }}"
+msgstr "{{6 - }} {{5 Wie heißt das versteckte WLAN? (SSID) }}"
 
 #: ../bin/kano-wifi:137
 msgid "Is the network protected? {{1 N}}o, {{1 W}}EP, W{{1P}}A"
@@ -90,7 +89,9 @@ msgstr "{{6 - }} {{5 Keine Verbindung zu }}{{2 %s }}"
 
 #: ../bin/kano-wifi:208
 msgid "{{6 - }} {{5 Do you want to re-enter the password? }} {{1 [Y]es/[n]o }}"
-msgstr "{{6 - }} {{5 Willst Du das Passwort noch einmal eingeben? }} {{1 [J]a/[n]ein }}"
+msgstr ""
+"{{6 - }} {{5 Willst Du das Passwort noch einmal eingeben? }} {{1 [J]a/[n]"
+"ein }}"
 
 #: ../bin/kano-wifi:210 ../bin/kano-wifi:359 ../bin/kano-wifi:378
 #: ../bin/kano-wifi:467
@@ -101,7 +102,8 @@ msgstr "Ja,J/Nein,N"
 msgid ""
 "{{8 x }} {{7 You need root privileges to start this app. Please try sudo }}"
 msgstr ""
-"{{8 x }} {{7 Dieses Programm benötigt root-Rechte. Bitte starte es mit sudo }}"
+"{{8 x }} {{7 Dieses Programm benötigt root-Rechte. Bitte starte es mit "
+"sudo }}"
 
 #: ../bin/kano-wifi:296
 msgid "{{6 - }} {{5 wireless network is not connected }}"
@@ -124,7 +126,8 @@ msgstr "{{4 + }} {{3 Prima! Du bist verbunden mit {{2 %s }}! }}"
 
 #: ../bin/kano-wifi:328 ../bin/kano-wifi:336
 msgid "{{4 + }} {{3 Good news! It looks like you already have internet }}"
-msgstr "{{4 + }} {{3 Gute Nachrichten! Du bist bereits mit dem Internet verbunden }}"
+msgstr ""
+"{{4 + }} {{3 Gute Nachrichten! Du bist bereits mit dem Internet verbunden }}"
 
 #: ../bin/kano-wifi:340
 msgid "First, plug in your {{2wifi piece}}."
@@ -162,8 +165,8 @@ msgid ""
 "{{6 - }} {{5 I can't find any wireless signals. Do you want to scan "
 "again? }} {{1 [Y]es/[n]o }}"
 msgstr ""
-"{{6 - }} {{5 Ich kann kein WLAN entdecken. Willst Du noch einmal "
-"scannen? }} {{1 [J]a/[n]ein }}"
+"{{6 - }} {{5 Ich kann kein WLAN entdecken. Willst Du noch einmal scannen? }} "
+"{{1 [J]a/[n]ein }}"
 
 #: ../bin/kano-wifi:380
 msgid "Exiting..."
@@ -232,8 +235,8 @@ msgid ""
 "{{6 - }} {{5 Not the correct command, try again: }} {{2 ping www.google."
 "com }}"
 msgstr ""
-"{{6 - }} {{5 Falsches Kommando, versuch's noch einmal: }} {{2 ping www.google."
-"com }}"
+"{{6 - }} {{5 Falsches Kommando, versuch's noch einmal: }} {{2 ping www."
+"google.com }}"
 
 #: ../bin/kano-wifi:479
 msgid ""
@@ -369,8 +372,8 @@ msgid "High Settings"
 msgstr "Hohe Stufe"
 
 #: ../kano_settings/parental_config.py:52
-msgid "Enable everything"
-msgstr "Alle Sperren anschalten"
+msgid "Enable all filters"
+msgstr "Aktiviere alle Filter"
 
 #: ../kano_settings/parental_config.py:55
 msgid "Ultimate Settings"
