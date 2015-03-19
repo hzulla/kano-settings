@@ -49,7 +49,7 @@ class ParentalConfig(Template):
             ),
             (
                 Gtk.Label(_("High Settings")),
-                Gtk.Label(_("Enable everything"))
+                Gtk.Label(_("Enable all filters"))
             ),
             (
                 Gtk.Label(_("Ultimate Settings")),

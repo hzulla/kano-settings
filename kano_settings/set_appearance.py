@@ -89,6 +89,7 @@ class SetResetDesktop(Gtk.Box):
         do_reset_changes = kdialog.run()
         if do_reset_changes:
             self.reset_desktop()
+            self.win.go_to_home()
 
     def restore_lxpanel_configuration(self):
         userid=os.getuid()
@@ -104,7 +105,7 @@ class SetResetDesktop(Gtk.Box):
         for root, dirs, files in os.walk(user_lxpanel_path):
             for name in files:
                 os.chown(os.path.join(root, name), userid, groupid)
-                
+
         _, _, _ = run_cmd('lxpanelctl restart')
 
     def reset_desktop(self):
